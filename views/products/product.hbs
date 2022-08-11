@@ -1,0 +1,42 @@
+{{#extends "base"}}
+{{#block "content"}}
+<h1>{{product.product}}</h1>
+<div>
+    <img src="{{this.product.product_image_url}}">
+</div>
+<div>
+    <h4>Description: </h4><p>{{product.description}}</p>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Created</th>
+            <th>Brand</th>
+            <th>Category</th>
+            <th>Gender</th>
+            <th>Activity</th>
+            <th>Blend</th>
+            <th>Micron</th>
+            <th>Fit</th>
+            <th>Cost</th>
+        </tr>
+        <tr>
+            <td>{{product.id}}</td>
+            <td>{{moment product.created_date format="YYYY-MM-DD"}}</td>
+            <td>{{product.brand.brand}}</td>
+            <td>{{product.category.category}}</td>
+            <td>{{product.gender.gender}}</td>
+            <td>{{product.activity.activity}}</td>
+            <td>{{product.blend.blend}}</td>
+            <td>{{product.micron.micron}}</td>
+            <td>{{product.fit.fit}}</td>
+            <td>${{divide product.cost 100}}</td>
+        </tr>
+    </thead>
+
+</table>
+
+{{/block}}
+{{/extends}}

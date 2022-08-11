@@ -1,6 +1,31 @@
 {{#extends "base"}}
 {{#block "content"}}
 <h1>Products</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Product</th>
+            <th>Brand</th>
+            <th>Cost</th>
+            <th>Date Created</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each products}}
+        <tr>
+            <td>{{this.id}}</td>
+            <td>{{this.product}}</td>
+            <td>{{this.brand.brand}}</td>
+            <td>${{divide this.cost 100}}</td>
+            <td>{{moment this.created_date format='YYYY-MM-DD'}}</td>
+            <td><a href="products/{{this.id}}" class="btn btn-primary btn-sm me-2">View</a><a href="#" class="btn btn-primary btn-sm">Update</a></td>
+           
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
 
 {{/block}}
 {{/extends}}
