@@ -30,8 +30,6 @@ const productRoutes = require('./routes/products');
 const orderRoutes = require('./routes/orders');
 
 
-
-
 async function main() {
     app.use('/', landingRoutes);
     app.use('/products', productRoutes);
