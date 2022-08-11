@@ -1,0 +1,8 @@
+{
+    "dev": {
+      "driver": "mysql",
+      "user": "merinology_admin",
+      "password":"admin",
+      "database":"merinology"
+    }
+  }

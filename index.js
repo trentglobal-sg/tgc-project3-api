@@ -27,6 +27,7 @@ app.use(
 //ROUTES
 const landingRoutes = require('./routes/landing');
 const productRoutes = require('./routes/products');
+const orderRoutes = require('./routes/orders');
 
 
 
@@ -34,6 +35,7 @@ const productRoutes = require('./routes/products');
 async function main() {
     app.use('/', landingRoutes);
     app.use('/products', productRoutes);
+    app.use('/orders', orderRoutes)
 }
 
 main();
