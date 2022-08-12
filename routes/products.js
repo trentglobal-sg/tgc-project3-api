@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const dataLayer = require('../dal/products');
-const { createProductForm, bootstrapField } = require('../forms');
+const { createProductForm, bootstrapField, updateProductForm } = require('../forms');
 const { Product } = require("../models");
 
 router.get('/', async function (req, res) {
@@ -84,7 +84,7 @@ router.get('/:product_id/update', async function(req,res){
     productForm.fields.product.value = product.get('product');
     productForm.fields.description.value = product.get('description');
     productForm.fields.cost.value = product.get('cost');
-    productForm.fields.created_date.value = product.get('created_date');
+    // productForm.fields.created_date.value = product.get('created_date');
     productForm.fields.product_image_url.value = product.get('product_image_url');
     productForm.fields.product_thumbnail_url.value = product.get('product_thumbnail_url');
     productForm.fields.brand_id.value = product.get('brand_id');
@@ -102,6 +102,37 @@ router.get('/:product_id/update', async function(req,res){
         cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
         cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
     })
+})
+
+router.post('/:product_id/update', async function (req,res){
+    const product = await dataLayer.getProductById(req.params.product_id);
+
+    const brands = await dataLayer.getAllBrands();
+    const categories = await dataLayer.getAllCategories();
+    const genders = await dataLayer.getAllGenders();
+    const activities = await dataLayer.getAllActivities();
+    const blends = await dataLayer.getAllBlends();
+    const microns = await dataLayer.getAllMicrons();
+    const fits = await dataLayer.getAllFits();
+
+    const productForm = createProductForm(brands, categories, genders, activities, blends, microns, fits);
+   
+    productForm.handle(req, {
+        'success': async (form) => {
+            console.log(product.get('created_date'))
+            updateForm = {...form.data, created_date: product.get('created_date')}
+            console.log(updateForm)
+            product.set(updateForm);
+            product.save();
+            res.redirect('/products');
+        },
+        'error': async (form) => {
+            // console.log(form.data)
+            // res.send('error')
+            res.send("error");
+        }
+    })
+    
 })
 
 
