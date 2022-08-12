@@ -49,14 +49,14 @@ router.post('/create', async function (req, res) {
             
             res.redirect('/products')
         },
-        // 'error': (form) => {
-        //     res.render('products/create', {
-        //         form: productForm.toHTML(bootstrapField),
-        //         cloudinaryName: process.env.CLOUDINARY_NAME,
-        //         cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
-        //         cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
-        //     })
-        // },
+        'error': (form) => {
+            res.render('products/create', {
+                form: productForm.toHTML(bootstrapField),
+                cloudinaryName: process.env.CLOUDINARY_NAME,
+                cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+                cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
+            })
+        },
     })
 })
 
