@@ -35,7 +35,8 @@ const createProductForm = (brands, categories, genders, activities, blends, micr
         }),
         'cost': fields.string({
             required: true,
-            errorAfterField: true
+            errorAfterField: true,
+            validators: [validators.integer(), validators.min(0)]
         }),
         'brand_id': fields.string({
             label: 'Brand',
