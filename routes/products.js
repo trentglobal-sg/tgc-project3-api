@@ -62,12 +62,11 @@ router.post('/create', async function (req, res) {
     })
 })
 
+
+
 router.get('/:product_id', async function (req, res) {
     const product = await dataLayer.getProductById(req.params.product_id);
     const variants = await dataLayer.getProductVariants(req.params.product_id);
-
-    // variants = variantsData.toJSON();
-    console.log(variants.toJSON())
 
     res.render('products/product', {
         'product': product.toJSON(),
@@ -135,9 +134,13 @@ router.post('/:product_id/update', async function (req, res) {
             res.redirect('/products');
         },
         'error': async (form) => {
-            // console.log(form.data)
-            // res.send('error')
-            res.send("error");
+            res.render('products/update', {
+                form: form.toHTML(bootstrapField),
+                product: product.toJSON(),
+                cloudinaryName: process.env.CLOUDINARY_NAME,
+                cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+                cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
+            })
         }
     })
 })
@@ -181,8 +184,49 @@ router.post('/:product_id/create-variant', async function (req, res) {
     })
 })
 
-// router.post('/:product_id/update-variant', async function (req,res){
+router.get('/:product_id/update-variant/:variant_id', async function (req,res){
+    const sizes = await dataLayer.getAllSizes();
+    const variant = await dataLayer.getVariantById(req.params.variant_id);
+    const variantForm = createVariantForm(sizes); 
 
-// })
+    //fill in the form fields
+    variantForm.fields.stock.value = variant.get('stock');
+    variantForm.fields.size_id.value = variant.get('size_id');
+    variantForm.fields.color_code.value = variant.get('color_code');
+    variantForm.fields.color_name.value = variant.get('color_name');
+    variantForm.fields.variant_image_url.value = variant.get('variant_image_url');
+    variantForm.fields.variant_thumbnail_url.value = variant.get('variant_thumbnail_url');
+
+    res.render('products/update-variant', {
+        form: variantForm.toHTML(bootstrapField),
+        variant: variant.toJSON(),
+        cloudinaryName: process.env.CLOUDINARY_NAME,
+        cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+        cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
+    })
+})
+
+router.post('/:product_id/update-variant/:variant_id', async function(req,res){
+    const sizes = await dataLayer.getAllSizes();
+    const variant = await dataLayer.getVariantById(req.params.variant_id);
+    const variantForm = createVariantForm(sizes);
+
+    variantForm.handle(req, {
+        'success': async (form) => {
+            variant.set(form.data);
+            variant.save();
+            res.redirect('/products/' + req.params.product_id);
+        },
+        'error': async (form) => {
+            res.render('products/update-variant', {
+                form: form.toHTML(bootstrapField),
+                variant: variant.toJSON(),
+                cloudinaryName: process.env.CLOUDINARY_NAME,
+                cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+                cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
+            })
+        }
+    })
+})
 
 module.exports = router;

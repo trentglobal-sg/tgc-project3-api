@@ -70,7 +70,7 @@ async function getProductVariants(productId){
         'product_id': productId
     }).fetch({
         require: false,
-        withRelated: ['size']
+        withRelated: ['size', 'product']
     });
     return variants;
 }
@@ -82,4 +82,14 @@ async function getAllSizes(){
     return sizes
 }
 
-module.exports = {getAllProducts, getProductById, getAllBrands, getAllCategories, getAllGenders, getAllActivities, getAllBlends, getAllMicrons, getAllFits, getProductVariants, getAllSizes}
+async function getVariantById(variantId){
+    const variant = await Variant.where({
+        'id': variantId
+    }).fetch({
+        require: true,
+        withRelated: ['product', 'size']
+    })
+    return variant
+}
+
+module.exports = {getAllProducts, getProductById, getAllBrands, getAllCategories, getAllGenders, getAllActivities, getAllBlends, getAllMicrons, getAllFits, getProductVariants, getAllSizes, getVariantById}
