@@ -13,12 +13,16 @@ const app = express();
 // set the view engine
 app.set("view engine", "hbs");
 
+
 // static folder
 app.use(express.static("public"));
 
 // setup wax-on
 wax.on(hbs.handlebars);
 wax.setLayoutPath("./views/layouts");
+
+// set up partials
+hbs.registerPartials('./views/partials');
 
 // enable forms
 app.use(

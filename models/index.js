@@ -1,5 +1,7 @@
 const bookshelf = require('../bookshelf')
 
+// PRODUCTS
+
 const Product = bookshelf.model('Product', {
     tableName: 'products',
     brand(){
@@ -22,6 +24,9 @@ const Product = bookshelf.model('Product', {
     },
     fit(){
         return this.belongsTo('Fit')
+    },
+    variant(){
+        return this.hasMany('Variant')
     }
 });
 
@@ -74,4 +79,22 @@ const Fit = bookshelf.model('Fit', {
     }
 })
 
-module.exports = {Product, Brand, Category, Gender, Activity, Blend, Micron, Fit}
+// VARIANTS
+
+const Variant = bookshelf.model('Variant', {
+    tableName: 'variants',
+    size(){
+        return this.belongsTo('Size')
+    },
+    product(){
+        return this.belongsTo('Product')
+    }
+})
+
+const Size = bookshelf.model('Size',{
+    tableName: 'sizes',
+    variant(){
+        return this.hasMany('Variant')
+    }
+})
+module.exports = {Product, Brand, Category, Gender, Activity, Blend, Micron, Fit, Variant, Size}

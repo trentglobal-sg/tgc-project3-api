@@ -1,4 +1,4 @@
-const forms = require ('forms')
+const forms = require('forms')
 const widgets = forms.widgets;
 const fields = forms.fields;
 const validators = forms.validators;
@@ -99,6 +99,36 @@ const createProductForm = (brands, categories, genders, activities, blends, micr
     })
 }
 
+const createVariantForm = (sizes) => {
+    return forms.create({
+        'stock': fields.string({
+            required: true,
+            errorAfterField: true,
+            validators: [validators.integer(), validators.min(0)]
+        }),
+        'size_id': fields.string({
+            label: "Size",
+            required: true,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: sizes
+        }),
+        'variant_image_url': fields.string({
+            widget: widgets.hidden()
+        }),
+        'variant_thumbnail_url': fields.string({
+            widget: widgets.hidden()
+        }),
+        'color_code': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'color_name': fields.string({
+            required: true,
+            errorAfterField: true
+        })
+    });
+}
 
 
-module.exports = {bootstrapField, createProductForm}
+module.exports = { bootstrapField, createProductForm, createVariantForm }

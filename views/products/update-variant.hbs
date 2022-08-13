@@ -1,13 +1,13 @@
 {{#extends "base"}}
 {{#block "content"}}
 
-<h1>Update Product</h1>
+<h1>Update Variant</h1>
 <form method="POST">
     {{{form}}}
     {{!-- cloudinary --}}
     <div>
-        {{#if product.product_image_url}}
-        <img src="{{product.product_image_url}}" id="uploaded_image" class="mt-3" style="width: 600px"/>
+        {{#if variant.variant_image_url}}
+        <img src="{{variant.variant_image_url}}" id="uploaded_image" class="mt-3" style="width: 600px"/>
         <div>
             <a href="#" class="btn btn-primary btn-sm mt-2" id="upload_widget">Change Image</a>
         </div>
@@ -20,12 +20,12 @@
 
         {{/if}}
     </div>
-    <input type="submit" value="Update Product"  class="btn btn-primary btn-sm mt-2"/>
+    <input type="submit" value="Update Variant"  class="btn btn-primary btn-sm mt-2"/>
 </form>
 {{/block}}
 
 {{#block 'js'}}
-{{>cloudinary imageId='#id_product_image_url' thumbnailId='#id_product_thumbnail_url'}}
+{{>cloudinary imageId='#id_variant_image_url' thumbnailId='#id_variant_thumbnail_url'}}
 {{/block}}
 
 {{/extends}}
