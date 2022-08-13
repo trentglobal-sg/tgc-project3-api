@@ -47,7 +47,7 @@ router.post('/create', async function (req, res) {
             const product = new Product(productData)
             const saved = await product.save()
             // await product.save();
-            console.log(saved.toJSON())
+            console.log(saved.toJSON()) //TODO redirect to add new variant immediately?
 
             res.redirect('/products')
         },
@@ -61,8 +61,6 @@ router.post('/create', async function (req, res) {
         },
     })
 })
-
-
 
 router.get('/:product_id', async function (req, res) {
     const product = await dataLayer.getProductById(req.params.product_id);
@@ -169,9 +167,7 @@ router.post('/:product_id/create-variant', async function (req, res) {
             const variant = new Variant(variantData)
             const saved = await variant.save()
 
-            console.log(saved.toJSON())
-
-            res.redirect('/products')
+            res.redirect('/products/' + req.params.product_id)
         },
         'error': async (form) => {
             res.render('products/create-variant', {
@@ -187,6 +183,7 @@ router.post('/:product_id/create-variant', async function (req, res) {
 router.get('/:product_id/update-variant/:variant_id', async function (req,res){
     const sizes = await dataLayer.getAllSizes();
     const variant = await dataLayer.getVariantById(req.params.variant_id);
+    console.log(variant.toJSON())
     const variantForm = createVariantForm(sizes); 
 
     //fill in the form fields
