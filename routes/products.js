@@ -181,4 +181,8 @@ router.post('/:product_id/create-variant', async function (req, res) {
     })
 })
 
+// router.post('/:product_id/update-variant', async function (req,res){
+
+// })
+
 module.exports = router;
