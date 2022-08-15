@@ -1,9 +1,23 @@
 const {Product, Brand, Category, Gender, Activity, Blend, Micron, Fit, Variant, Size, Product_variant} = require('../models');
 
+// async function getAllProducts(){
+//     return await Product.fetchAll({
+//         withRelated: ['brand']
+//     })
+// }
+
 async function getAllProducts(){
-    return await Product.fetchAll({
+    let allProductsData = await Product.fetchAll({
         withRelated: ['brand']
     })
+    let allProducts = allProductsData.toJSON();
+    let newAllProducts = []
+    for (let product of allProducts) {
+        const stock = await getStockOfAllVariants(product.id)
+        product = {...product, stock}
+        newAllProducts.push(product)
+    }
+    return newAllProducts;
 }
 
 async function getProductById(productId){
@@ -65,14 +79,32 @@ async function getAllFits(){
     return fits
 }
 
+// async function getProductVariants(productId){
+//     const variants = await Variant.collection().where({
+//         'product_id': productId
+//     }).fetch({
+//         require: false,
+//         withRelated: ['product']
+//     });
+//     return variants;
+// }
+
 async function getProductVariants(productId){
-    const variants = await Variant.collection().where({
+    const variantsData = await Variant.collection().where({
         'product_id': productId
     }).fetch({
         require: false,
         withRelated: ['product']
     });
-    return variants;
+    let variants = variantsData.toJSON();
+    // console.log(variants)
+    let newVariants = [];
+    for (let variant of variants){
+        const stock = await getStockOfVariant(variant.id);
+        variant = {...variant, stock};
+        newVariants.push(variant);
+    }
+    return newVariants;
 }
 
 async function getAllSizes(){
@@ -112,31 +144,44 @@ async function getProductVariantById(productVariantId){
     return productVariant
 }
 
-async function getStockOfVariants(productId){
+async function getStockOfAllVariants(productId){
     //for each product, get all its variant ids
     let variantIds = []
     let allVariantsData = await getProductVariants(productId)
-    let variants = allVariantsData.toJSON()
+    let variants = allVariantsData
     variants.map(variant => {
         variantIds.push(variant.id)
     })
-    console.log(variantIds)
+    // console.log(variantIds)
 
     let productStock = 0;
     //for each variant id, get all its product variants
     for (let variantId of variantIds) {
        const productVariantsData = await getAllProductVariantsByVariant(variantId);
-       console.log(productVariantsData.toJSON())
+    //    console.log(productVariantsData.toJSON())
        let productVariants = productVariantsData.toJSON()
         // loop through the product variants and extract the stock
         let variantStock = 0;
         productVariants.map(productVariant => {
             variantStock = variantStock + productVariant.stock
         })
-        console.log('variantstock:' + variantStock)
+        // console.log('variantstock:' + variantStock)
         productStock = productStock + variantStock
     }
-    console.log('productStock:' + productStock)
+    // console.log('productStock:' + productStock)
+    return productStock;
+}
+
+async function getStockOfVariant(variantId){
+    //for this variant, get its product variants
+    const productVariantsData = await getAllProductVariantsByVariant(variantId);
+    let productVariants = productVariantsData.toJSON();
+    let variantStock = 0;
+    productVariants.map(productVariant => {
+        variantStock = variantStock + productVariant.stock
+    })
+    return variantStock;
+    // console.log(variantStock)
 }
 
 module.exports = {getAllProducts, 
@@ -153,4 +198,5 @@ module.exports = {getAllProducts,
     getVariantById, 
     getAllProductVariantsByVariant, 
     getProductVariantById,
-    getStockOfVariants}
+    getStockOfAllVariants,
+    getStockOfVariant}

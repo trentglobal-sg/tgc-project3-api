@@ -4,7 +4,7 @@
 <h1>Product Variants</h1>
 <h2>{{product.product}}</h2>
 <div>
-    <img src="{{product.product_image_url}}" style="width:300px" />
+    <img src="{{variant.variant_image_url}}" style="width:300px" />
 </div>
 {{!-- <div>
     <h3>Description: </h4>
@@ -49,7 +49,7 @@
             <th>ID</th>
             <th>Color Name</th>
             <th>Color Code</th>
-            <th>Image</th>
+            {{!-- <th>Image</th> --}}
         </tr>
     </thead>
     <tbody>
@@ -57,12 +57,13 @@
             <td>{{variant.id}}</td>
             <td>{{variant.color_name}}</td>
             <td>{{variant.color_code}}</td>
-            <td><img src="{{variant.variant_thumbnail_url}}" /></td>
+            {{!-- <td><img src="{{variant.variant_thumbnail_url}}" /></td> --}}
         </tr>
     </tbody>
 </table>
 
 <div><h3>Product Variants</h3></div>
+<a href="/products/{{productId}}/variants/{{variantId}}/add-product-variant/" class="btn btn-sm btn-primary">Add New Product Variant</a>
 <table class="table">
     <thead>
         <tr>

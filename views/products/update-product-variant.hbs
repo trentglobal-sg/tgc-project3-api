@@ -2,12 +2,25 @@
 {{#block "content"}}
 
 <h1>Update Product Variant</h1>
-<tr>
-    <td>{{variant.id}}</td>
-    <td>{{variant.color_name}}</td>
-    <td>{{variant.color_code}}</td>
-    <td><img src="{{variant.variant_thumbnail_url}}" /></td>
-</tr>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Color Name</th>
+            <th>Color Code</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{variant.id}}</td>
+            <td>{{variant.color_name}}</td>
+            <td>{{variant.color_code}}</td>
+            <td><img src="{{variant.variant_thumbnail_url}}" /></td>
+        </tr>
+    </tbody>
+</table>
+
 <form method="POST">
     {{{form}}}
     <input type="submit" class="btn btn-primary btn-sm mt-2" />

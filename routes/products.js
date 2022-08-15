@@ -7,7 +7,7 @@ const { Product, Variant, Product_variant } = require("../models");
 router.get('/', async function (req, res) {
     let products = await dataLayer.getAllProducts();
     res.render("products/index", {
-        'products': products.toJSON(),
+        'products': products
     });
 })
 
@@ -65,12 +65,11 @@ router.post('/create', async function (req, res) {
 router.get('/:product_id', async function (req, res) {
     const product = await dataLayer.getProductById(req.params.product_id);
     const variants = await dataLayer.getProductVariants(req.params.product_id);
-    const stock = await dataLayer.getStockOfVariants(req.params.product_id);
     // console.log(variants.toJSON())
 
     res.render('products/product', {
         'product': product.toJSON(),
-        'variants': variants.toJSON(),
+        'variants': variants
     })
 })
 
@@ -147,9 +146,11 @@ router.post('/:product_id/update', async function (req, res) {
 
 router.get('/:product_id/create-variant', async function (req, res) {
     const variantForm = createVariantForm()
+    const product = await dataLayer.getProductById(req.params.product_id)
 
     res.render('products/create-variant', {
         form: variantForm.toHTML(bootstrapField),
+        product: product.toJSON(),
         cloudinaryName: process.env.CLOUDINARY_NAME,
         cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
         cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
@@ -272,6 +273,7 @@ router.post('/:product_id/variants/:variant_id/update-product-variant/:product_v
 
 router.get('/:product_id/update-variant/:variant_id', async function (req,res){
     const variant = await dataLayer.getVariantById(req.params.variant_id);
+    const product = await dataLayer.getProductById(req.params.product_id)
     // console.log(variant.toJSON())
     const variantForm = createVariantForm(); 
 
@@ -284,6 +286,7 @@ router.get('/:product_id/update-variant/:variant_id', async function (req,res){
     res.render('products/update-variant', {
         form: variantForm.toHTML(bootstrapField),
         variant: variant.toJSON(),
+        product: product.toJSON(),
         cloudinaryName: process.env.CLOUDINARY_NAME,
         cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
         cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
