@@ -135,5 +135,17 @@ const createProductVariantForm = (sizes) => {
     })    
 }
 
+const createSearchForm = () =>{
+    return forms.create({
+        'product': fields.string({
+            required: false,
+            errorAfterField: true
+        })
+    })
+}
 
-module.exports = { bootstrapField, createProductForm, createVariantForm, createProductVariantForm }
+module.exports = { bootstrapField, 
+    createProductForm, 
+    createVariantForm, 
+    createProductVariantForm,
+    createSearchForm }

@@ -1,14 +1,54 @@
 const express = require("express");
 const router = express.Router();
 const dataLayer = require('../dal/products');
-const { createProductForm, bootstrapField, createVariantForm, createProductVariantForm } = require('../forms');
+const { createProductForm, bootstrapField, createVariantForm, createProductVariantForm, createSearchForm } = require('../forms');
 const { Product, Variant, Product_variant } = require("../models");
 
 router.get('/', async function (req, res) {
-    let products = await dataLayer.getAllProducts();
-    res.render("products/index", {
-        'products': products
-    });
+    let allProducts = await dataLayer.getAllProducts();
+    let searchForm = createSearchForm();
+    let query = Product.collection();
+
+    searchForm.handle(req, {
+        'success': async (form) => {
+            if (form.data.product) {
+                query.where('product', 'like', '%', + form.data.product + '%')
+            }
+
+            let productsData = await query.fetch({
+                withRelated: ['brand']
+            })
+            let products = productsData.toJSON();
+            console.log(products) //TODO why does search return all productys?
+
+            //get stock for seach results
+            let newProducts = []
+            for (let product of products) {
+                const stock = await dataLayer.getStockOfAllVariants(product.id)
+                product = { ...product, stock }
+                newProducts.push(product)
+            }
+
+            res.render("products/index", {
+                'products': newProducts,
+                'form': form.toHTML(bootstrapField)
+            });
+        },
+        'empty': async () => {
+            let products = allProducts
+            res.render("products/index", {
+                'products': products,
+                'form': searchForm.toHTML(bootstrapField)
+            });
+        },
+        'error': async () => {
+            let products = allProducts
+            res.render("products/index", {
+                'products': products,
+                'form': searchForm.toHTML(bootstrapField)
+            });
+        },
+    })
 })
 
 router.get('/create', async function (req, res) {
@@ -179,7 +219,7 @@ router.post('/:product_id/create-variant', async function (req, res) {
     })
 })
 
-router.get('/:product_id/variants/:variant_id', async function(req,res){
+router.get('/:product_id/variants/:variant_id', async function (req, res) {
     const productVariants = await dataLayer.getAllProductVariantsByVariant(req.params.variant_id);
     const product = await dataLayer.getProductById(req.params.product_id);
     const variant = await dataLayer.getVariantById(req.params.variant_id);
@@ -192,34 +232,34 @@ router.get('/:product_id/variants/:variant_id', async function(req,res){
     })
 })
 
-router.get('/:product_id/variants/:variant_id/add-product-variant/', async function (req,res){
+router.get('/:product_id/variants/:variant_id/add-product-variant/', async function (req, res) {
     const variant = await dataLayer.getVariantById(req.params.variant_id);
     const sizes = await dataLayer.getAllSizes();
     const productVariantForm = createProductVariantForm(sizes);
 
-    res.render('products/create-product-variant',{
+    res.render('products/create-product-variant', {
         form: productVariantForm.toHTML(bootstrapField),
         variant: variant.toJSON(),
         product_id: req.params.product_id
     })
 })
 
-router.post('/:product_id/variants/:variant_id/add-product-variant/', async function (req,res){
+router.post('/:product_id/variants/:variant_id/add-product-variant/', async function (req, res) {
     const variant = await dataLayer.getVariantById(req.params.variant_id);
     const sizes = await dataLayer.getAllSizes();
     const productVariantForm = createProductVariantForm(sizes);
 
     productVariantForm.handle(req, {
-        'success': async(form) => {
+        'success': async (form) => {
             const variant_id = req.params.variant_id
-            const product_variant_data = {...form.data, variant_id}
+            const product_variant_data = { ...form.data, variant_id }
             const product_variant = new Product_variant(product_variant_data)
             const saved = await product_variant.save()
 
             res.redirect('/products/' + req.params.product_id + '/variants/' + req.params.variant_id)
         },
         'error': async (form) => {
-            res.render('products/create-product-variant',{
+            res.render('products/create-product-variant', {
                 form: form.toHTML(bootstrapField),
                 variant: variant.toJSON()
             })
@@ -227,7 +267,7 @@ router.post('/:product_id/variants/:variant_id/add-product-variant/', async func
     })
 })
 
-router.get('/:product_id/variants/:variant_id/update-product-variant/:product_variant_id', async function (req,res){
+router.get('/:product_id/variants/:variant_id/update-product-variant/:product_variant_id', async function (req, res) {
     const variant = await dataLayer.getVariantById(req.params.variant_id);
     const sizes = await dataLayer.getAllSizes();
     const productVariant = await dataLayer.getProductVariantById(req.params.product_variant_id);
@@ -236,7 +276,7 @@ router.get('/:product_id/variants/:variant_id/update-product-variant/:product_va
     productVariantForm.fields.stock.value = productVariant.get('stock');
     productVariantForm.fields.size_id.value = productVariant.get('size_id');
 
-    res.render('products/update-product-variant',{
+    res.render('products/update-product-variant', {
         form: productVariantForm.toHTML(bootstrapField),
         variant: variant.toJSON(),
         productVariant: productVariant.toJSON(),
@@ -246,7 +286,7 @@ router.get('/:product_id/variants/:variant_id/update-product-variant/:product_va
     })
 })
 
-router.post('/:product_id/variants/:variant_id/update-product-variant/:product_variant_id', async function (req,res){
+router.post('/:product_id/variants/:variant_id/update-product-variant/:product_variant_id', async function (req, res) {
     const variant = await dataLayer.getVariantById(req.params.variant_id);
     const sizes = await dataLayer.getAllSizes();
     const productVariant = await dataLayer.getProductVariantById(req.params.product_variant_id);
@@ -259,7 +299,7 @@ router.post('/:product_id/variants/:variant_id/update-product-variant/:product_v
             res.redirect('/products/' + req.params.product_id + '/variants/' + req.params.variant_id);
         },
         'error': async (form) => {
-            res.render('products/update-product-variant',{
+            res.render('products/update-product-variant', {
                 form: form.toHTML(bootstrapField),
                 variant: variant.toJSON(),
                 productVariant: productVariant.toJSON(),
@@ -271,11 +311,11 @@ router.post('/:product_id/variants/:variant_id/update-product-variant/:product_v
     })
 })
 
-router.get('/:product_id/update-variant/:variant_id', async function (req,res){
+router.get('/:product_id/update-variant/:variant_id', async function (req, res) {
     const variant = await dataLayer.getVariantById(req.params.variant_id);
     const product = await dataLayer.getProductById(req.params.product_id)
     // console.log(variant.toJSON())
-    const variantForm = createVariantForm(); 
+    const variantForm = createVariantForm();
 
     //fill in the form fields
     variantForm.fields.color_code.value = variant.get('color_code');
@@ -293,7 +333,7 @@ router.get('/:product_id/update-variant/:variant_id', async function (req,res){
     })
 })
 
-router.post('/:product_id/update-variant/:variant_id', async function(req,res){
+router.post('/:product_id/update-variant/:variant_id', async function (req, res) {
     const variant = await dataLayer.getVariantById(req.params.variant_id);
     const variantForm = createVariantForm();
 

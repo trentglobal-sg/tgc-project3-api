@@ -1,7 +1,16 @@
 {{#extends "base"}}
 {{#block "content"}}
 <h1>Products</h1>
-<a href="/products/create" class="btn btn-primary btn-sm">Add New Product</a>
+
+<div>
+    <h2>Search</h2>
+    <form method="GET">
+        {{{form}}}
+        <input type="submit" class="btn btn-sm btn-primary mt-2"/>
+    </form>
+</div>
+
+<a href="/products/create" class="btn btn-primary btn-sm mt-3">Add New Product</a>
 <table class="table">
     <thead>
         <tr>
