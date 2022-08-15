@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const dataLayer = require('../dal/products');
-const { createProductForm, bootstrapField, createVariantForm } = require('../forms');
-const { Product, Variant } = require("../models");
+const { createProductForm, bootstrapField, createVariantForm, createProductVariantForm } = require('../forms');
+const { Product, Variant, Product_variant } = require("../models");
 
 router.get('/', async function (req, res) {
     let products = await dataLayer.getAllProducts();
@@ -144,9 +144,7 @@ router.post('/:product_id/update', async function (req, res) {
 })
 
 router.get('/:product_id/create-variant', async function (req, res) {
-    const sizes = await dataLayer.getAllSizes();
-
-    const variantForm = createVariantForm(sizes)
+    const variantForm = createVariantForm()
 
     res.render('products/create-variant', {
         form: variantForm.toHTML(bootstrapField),
@@ -157,9 +155,7 @@ router.get('/:product_id/create-variant', async function (req, res) {
 })
 
 router.post('/:product_id/create-variant', async function (req, res) {
-    const sizes = await dataLayer.getAllSizes();
-
-    const variantForm = createVariantForm(sizes);
+    const variantForm = createVariantForm();
     variantForm.handle(req, {
         'success': async (form) => {
             const product_id = req.params.product_id
@@ -181,14 +177,11 @@ router.post('/:product_id/create-variant', async function (req, res) {
 })
 
 router.get('/:product_id/update-variant/:variant_id', async function (req,res){
-    const sizes = await dataLayer.getAllSizes();
     const variant = await dataLayer.getVariantById(req.params.variant_id);
     console.log(variant.toJSON())
-    const variantForm = createVariantForm(sizes); 
+    const variantForm = createVariantForm(); 
 
     //fill in the form fields
-    variantForm.fields.stock.value = variant.get('stock');
-    variantForm.fields.size_id.value = variant.get('size_id');
     variantForm.fields.color_code.value = variant.get('color_code');
     variantForm.fields.color_name.value = variant.get('color_name');
     variantForm.fields.variant_image_url.value = variant.get('variant_image_url');
@@ -204,9 +197,8 @@ router.get('/:product_id/update-variant/:variant_id', async function (req,res){
 })
 
 router.post('/:product_id/update-variant/:variant_id', async function(req,res){
-    const sizes = await dataLayer.getAllSizes();
     const variant = await dataLayer.getVariantById(req.params.variant_id);
-    const variantForm = createVariantForm(sizes);
+    const variantForm = createVariantForm();
 
     variantForm.handle(req, {
         'success': async (form) => {
@@ -225,5 +217,41 @@ router.post('/:product_id/update-variant/:variant_id', async function(req,res){
         }
     })
 })
+
+router.get('/:product_id/update-variant/:variant_id/add-product-variant', async function (req,res){
+    const variant = await dataLayer.getVariantById(req.params.variant_id);
+    const sizes = await dataLayer.getAllSizes();
+    const productVariantForm = createProductVariantForm(sizes);
+
+    res.render('products/create-product-variant',{
+        form: productVariantForm.toHTML(bootstrapField),
+        variant: variant.toJSON()
+    })
+})
+
+router.post('/:product_id/update-variant/:variant_id/add-product-variant', async function (req,res){
+    const variant = await dataLayer.getVariantById(req.params.variant_id);
+    const sizes = await dataLayer.getAllSizes();
+    const productVariantForm = createProductVariantForm(sizes);
+
+    productVariantForm.handle(req, {
+        'success': async(form) => {
+            const variant_id = req.params.variant_id
+            const product_variant_data = {...form.data, variant_id}
+            const product_variant = new Product_variant(product_variant_data)
+            const saved = await product_variant.save()
+
+            res.redirect('/products/' + req.params.product_id)
+        },
+        'error': async (form) => {
+            res.render('products/create-product-variant',{
+                form: form.toHTML(bootstrapField),
+                variant: variant.toJSON()
+            })
+        }
+    })
+})
+
+
 
 module.exports = router;

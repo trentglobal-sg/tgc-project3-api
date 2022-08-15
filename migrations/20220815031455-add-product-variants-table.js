@@ -15,7 +15,7 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('variants', {
+  return db.createTable('product_variants', {
     id: {
       type: 'int',
       primaryKey: true,
@@ -26,49 +26,27 @@ exports.up = function(db) {
       type: 'int',
       unsigned: true
     },
-    variant_image_url: {
-      type: 'string',
-      length: 255
-    },
-    variant_thumbnail_url: {
-      type: 'string',
-      length: 255
-    },
-    product_id: {
-      type: 'int',
-      unsigned: true,
-      defaultValue: 1,
-      foreignKey: {
-        name: 'variants_products_fk',
-        table: 'products',
-        mapping: 'id',
-        rules: {
-          onDelete: 'cascade',
-          onUpdate: 'restrict'
-        }
-      }
-    },
-    color_id: {
-      type: 'int',
-      unsigned: true,
-      defaultValue: 1,
-      foreignKey: {
-        name: 'variants_colors_fk',
-        table: 'colors',
-        mapping: 'id',
-        rules: {
-          onDelete: 'cascade',
-          onUpdate: 'restrict'
-        }
-      }
-    },
     size_id: {
       type: 'int',
       unsigned: true,
       defaultValue: 1,
       foreignKey: {
-        name: 'variants_sizes_fk',
+        name: 'productvariants_sizes_fk',
         table: 'sizes',
+        mapping: 'id',
+        rules: {
+          onDelete: 'cascade',
+          onUpdate: 'restrict'
+        }
+      }
+    },
+    variant_id: {
+      type: 'int',
+      unsigned: true,
+      defaultValue: 1,
+      foreignKey: {
+        name: 'productvariants_variants_fk',
+        table: 'variants',
         mapping: 'id',
         rules: {
           onDelete: 'cascade',
@@ -80,7 +58,7 @@ exports.up = function(db) {
 };
 
 exports.down = function(db) {
-  return null;
+  return db.dropTable('product_variants')
 };
 
 exports._meta = {

@@ -22,10 +22,6 @@ exports.up = function(db) {
       autoIncrement: true,
       unsigned:true
     },
-    stock: {
-      type: 'int',
-      unsigned: true,
-    },
     variant_image_url: {
       type: 'string',
       length: 255
@@ -49,20 +45,6 @@ exports.up = function(db) {
       foreignKey: {
         name: 'variants_products_fk',
         table: 'products',
-        mapping: 'id',
-        rules: {
-          onDelete: 'cascade',
-          onUpdate: 'restrict'
-        }
-      }
-    },
-    size_id: {
-      type: 'int',
-      unsigned: true,
-      defaultValue: 1,
-      foreignKey: {
-        name: 'variants_sizes_fk',
-        table: 'sizes',
         mapping: 'id',
         rules: {
           onDelete: 'cascade',

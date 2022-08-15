@@ -70,7 +70,7 @@ async function getProductVariants(productId){
         'product_id': productId
     }).fetch({
         require: false,
-        withRelated: ['size', 'product']
+        withRelated: ['product']
     });
     return variants;
 }
@@ -87,7 +87,7 @@ async function getVariantById(variantId){
         'id': variantId
     }).fetch({
         require: true,
-        withRelated: ['product', 'size']
+        withRelated: ['product']
     })
     return variant
 }

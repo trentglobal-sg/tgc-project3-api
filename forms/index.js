@@ -99,20 +99,8 @@ const createProductForm = (brands, categories, genders, activities, blends, micr
     })
 }
 
-const createVariantForm = (sizes) => {
+const createVariantForm = () => {
     return forms.create({
-        'stock': fields.string({
-            required: true,
-            errorAfterField: true,
-            validators: [validators.integer(), validators.min(0)]
-        }),
-        'size_id': fields.string({
-            label: "Size",
-            required: true,
-            errorAfterField: true,
-            widget: widgets.select(),
-            choices: sizes
-        }),
         'variant_image_url': fields.string({
             widget: widgets.hidden()
         }),
@@ -130,5 +118,22 @@ const createVariantForm = (sizes) => {
     });
 }
 
+const createProductVariantForm = (sizes) => {
+    return forms.create({
+        'stock': fields.string({
+            required: true,
+            errorAfterField: true,
+            validators: [validators.integer(), validators.min(0)]
+        }),
+        'size_id': fields.string({
+            label: "Size",
+            required: true,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: sizes
+        }),
+    })    
+}
 
-module.exports = { bootstrapField, createProductForm, createVariantForm }
+
+module.exports = { bootstrapField, createProductForm, createVariantForm, createProductVariantForm }

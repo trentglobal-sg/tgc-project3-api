@@ -83,9 +83,6 @@ const Fit = bookshelf.model('Fit', {
 
 const Variant = bookshelf.model('Variant', {
     tableName: 'variants',
-    size(){
-        return this.belongsTo('Size')
-    },
     product(){
         return this.belongsTo('Product')
     }
@@ -93,8 +90,15 @@ const Variant = bookshelf.model('Variant', {
 
 const Size = bookshelf.model('Size',{
     tableName: 'sizes',
-    variant(){
-        return this.hasMany('Variant')
+    product_variant(){
+        return this.hasMany('Product_variant')
     }
 })
-module.exports = {Product, Brand, Category, Gender, Activity, Blend, Micron, Fit, Variant, Size}
+
+const Product_variant = bookshelf.model('Product_variant', {
+    tableName: 'product_variants',
+    size(){
+        return this.belongsTo('Size')
+    }
+})
+module.exports = {Product, Brand, Category, Gender, Activity, Blend, Micron, Fit, Variant, Size, Product_variant}
