@@ -1,0 +1,20 @@
+{{#extends "base"}}
+{{#block "content"}}
+
+<h1>Update Product Variant</h1>
+<tr>
+    <td>{{variant.id}}</td>
+    <td>{{variant.color_name}}</td>
+    <td>{{variant.color_code}}</td>
+    <td><img src="{{variant.variant_thumbnail_url}}" /></td>
+</tr>
+<form method="POST">
+    {{{form}}}
+    <input type="submit" class="btn btn-primary btn-sm mt-2" />
+</form>
+{{/block}}
+
+{{#block 'js'}}
+{{/block}}
+
+{{/extends}}

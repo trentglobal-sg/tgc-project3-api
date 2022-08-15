@@ -85,6 +85,9 @@ const Variant = bookshelf.model('Variant', {
     tableName: 'variants',
     product(){
         return this.belongsTo('Product')
+    },
+    product_variant(){
+        return this.hasMany('Product_variant')
     }
 })
 
@@ -99,6 +102,9 @@ const Product_variant = bookshelf.model('Product_variant', {
     tableName: 'product_variants',
     size(){
         return this.belongsTo('Size')
+    },
+    variant(){
+        return this.belongsTo('Variant')
     }
 })
 module.exports = {Product, Brand, Category, Gender, Activity, Blend, Micron, Fit, Variant, Size, Product_variant}
