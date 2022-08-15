@@ -12,12 +12,13 @@ router.get('/', async function (req, res) {
     searchForm.handle(req, {
         'success': async (form) => {
             if (form.data.product) {
-                query.where('product', 'like', '%', + form.data.product + '%')
-            }
+                query.where('product', 'like', '%' + form.data.product + '%')
+            };
 
             let productsData = await query.fetch({
                 withRelated: ['brand']
             })
+
             let products = productsData.toJSON();
             console.log(products) //TODO why does search return all productys?
 
