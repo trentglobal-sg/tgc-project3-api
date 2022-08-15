@@ -1,4 +1,4 @@
-const {Product, Brand, Category, Gender, Activity, Blend, Micron, Fit, Variant, Size} = require('../models');
+const {Product, Brand, Category, Gender, Activity, Blend, Micron, Fit, Variant, Size, Product_variant} = require('../models');
 
 async function getAllProducts(){
     return await Product.fetchAll({
@@ -92,4 +92,15 @@ async function getVariantById(variantId){
     return variant
 }
 
-module.exports = {getAllProducts, getProductById, getAllBrands, getAllCategories, getAllGenders, getAllActivities, getAllBlends, getAllMicrons, getAllFits, getProductVariants, getAllSizes, getVariantById}
+async function getAllProductVariantsByVariant(variantId){
+    const productVariants = await Product_variant.collection().where({
+        'variant_id': variantId
+    }).fetch({
+        require: false,
+        withRelated: ['size']
+    });
+    return productVariants;
+}
+
+
+module.exports = {getAllProducts, getProductById, getAllBrands, getAllCategories, getAllGenders, getAllActivities, getAllBlends, getAllMicrons, getAllFits, getProductVariants, getAllSizes, getVariantById, getAllProductVariantsByVariant}
