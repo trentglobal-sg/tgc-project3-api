@@ -107,4 +107,31 @@ const Product_variant = bookshelf.model('Product_variant', {
         return this.belongsTo('Variant')
     }
 })
-module.exports = {Product, Brand, Category, Gender, Activity, Blend, Micron, Fit, Variant, Size, Product_variant}
+
+const Role = bookshelf.model('Role', {
+    tableName: 'roles',
+    user(){
+        return this.hasMany('User')
+    }
+})
+
+const User = bookshelf.model('User', {
+    tableName: 'users',
+    role(){
+        return this.belongsTo('Role')
+    }
+})
+
+module.exports = {Product, 
+    Brand, 
+    Category, 
+    Gender, 
+    Activity, 
+    Blend, 
+    Micron, 
+    Fit, 
+    Variant, 
+    Size, 
+    Product_variant,
+    Role,
+    User,}

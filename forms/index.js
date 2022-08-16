@@ -178,8 +178,22 @@ const createSearchForm = (brands, genders, categories) =>{
     })
 }
 
+const createLoginForm = () => {
+    return forms.create({
+        'email': fields.string({
+            required: true,
+            errorAfterField: true,
+        }),
+        'password': fields.password({
+            required: true,
+            errorAfterField: true,
+        })
+    })
+}
+
 module.exports = { bootstrapField, 
     createProductForm, 
     createVariantForm, 
     createProductVariantForm,
-    createSearchForm }
+    createSearchForm,
+    createLoginForm }
