@@ -8,7 +8,7 @@ const {Product, Brand, Category, Gender, Activity, Blend, Micron, Fit, Variant, 
 
 async function getAllProducts(){
     let allProductsData = await Product.fetchAll({
-        withRelated: ['brand']
+        withRelated: ['brand', 'gender', 'category']
     })
     let allProducts = allProductsData.toJSON();
     let newAllProducts = []

@@ -1,44 +1,55 @@
 {{#extends "base"}}
 {{#block "content"}}
 <h1>Products</h1>
-
-<div>
+<a href="/products/create" class="btn btn-primary btn-sm mb-3">Add New Product</a>
+<div class="row">
+<div class="col-12 col-lg-2">
     <h2>Search</h2>
     <form method="GET">
         {{{form}}}
-        <input type="submit" class="btn btn-sm btn-primary mt-2"/>
+        <input type="submit" class="btn btn-sm btn-primary mt-2" />
+        <a href="/products" class="btn btn-sm btn-danger mt-2">Clear Search</a>
     </form>
 </div>
 
-<a href="/products/create" class="btn btn-primary btn-sm mt-3">Add New Product</a>
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Product</th>
-            <th>Brand</th>
-            <th>Cost</th>
-            <th>Date Created</th>
-            <th>Stock</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each products}}
-        <tr>
-            <td>{{this.id}}</td>
-            <td>{{this.product}}</td>
-            <td>{{this.brand.brand}}</td>
-            <td>${{divide this.cost 100}}</td>
-            <td>{{moment this.created_date format='YYYY-MM-DD'}}</td>
-            <td>{{this.stock}}</td>
-            <td><img src="{{this.product_thumbnail_url}}"></td>
-            <td><a href="/products/{{this.id}}" class="btn btn-primary btn-sm me-2">View</a><a href="/products/{{this.id}}/update" class="btn btn-primary btn-sm">Update</a></td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+<div class="col-12 col-lg-9">
+    <h2>Results</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Gender</th>
+                <th>Brand</th>
+                <th>Cost</th>
+                <th>Stock</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr>
+                <td>{{this.id}}</td>
+                <td>{{this.product}}</td>
+                <td>{{this.category.category}}</td>
+                <td>{{this.gender.gender}}</td>
+                <td>{{this.brand.brand}}</td>
+                <td>${{divide this.cost 100}}</td>
+                <td>{{this.stock}}</td>
+                <td><img src="{{this.product_thumbnail_url}}"></td>
+                <td><a href="/products/{{this.id}}" class="btn btn-primary btn-sm me-2">View</a><a
+                        href="/products/{{this.id}}/update" class="btn btn-primary btn-sm">Update</a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+</div>
+
+
+
 
 {{/block}}
 {{/extends}}

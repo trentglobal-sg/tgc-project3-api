@@ -2,11 +2,19 @@ const express = require("express");
 const router = express.Router();
 const dataLayer = require('../dal/products');
 const { createProductForm, bootstrapField, createVariantForm, createProductVariantForm, createSearchForm } = require('../forms');
-const { Product, Variant, Product_variant } = require("../models");
+const { Product, Variant, Product_variant, Brand } = require("../models");
 
 router.get('/', async function (req, res) {
     let allProducts = await dataLayer.getAllProducts();
-    let searchForm = createSearchForm();
+    
+    const allBrands = await dataLayer.getAllBrands();
+    allBrands.unshift([0, '-----']);
+    const allGenders = await dataLayer.getAllGenders();
+    allGenders.unshift([0, '-----']);
+    const allCategories = await dataLayer.getAllCategories();
+    allCategories.unshift([0, '-----'])
+
+    let searchForm = createSearchForm(allBrands, allGenders, allCategories);
     let query = Product.collection();
 
     searchForm.handle(req, {
@@ -14,9 +22,24 @@ router.get('/', async function (req, res) {
             if (form.data.product) {
                 query.where('product', 'like', '%' + form.data.product + '%')
             };
+            if (form.data.brand_id && form.data.brand_id != '0'){
+                query.where('brand_id', '=', form.data.brand_id)
+            };
+            if (form.data.min_cost){
+                query.where('cost', '>=', form.data.min_cost*100)
+            };
+            if (form.data.max_cost){
+                query.where('cost', '<=', form.data.max_cost*100)
+            }
+            if (form.data.gender_id && form.data.gender_id != '0'){
+                query.where('gender_id', '=', form.data.gender_id)
+            }
+            if (form.data.category_id && form.data.category_id != '0'){
+                query.where('category_id', '=', form.data.category_id)
+            }
 
             let productsData = await query.fetch({
-                withRelated: ['brand']
+                withRelated: ['brand', 'gender', 'category']
             })
 
             let products = productsData.toJSON();

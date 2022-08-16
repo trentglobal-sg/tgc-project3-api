@@ -135,23 +135,46 @@ const createProductVariantForm = (sizes) => {
     })    
 }
 
-const createSearchForm = () =>{
+const createSearchForm = (brands, genders, categories) =>{
     return forms.create({
         'product': fields.string({
             required: false,
             errorAfterField: true
-        })
+        }),
         //search by brands from a drop down
-
-        //search by categories
-
-        //search by gender
-
-        //search by min cost
-
-        //search by max cost
-
-
+        'brand_id': fields.string({
+            label: 'Brand',
+            required: false,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: brands
+        }),
+        'min_cost': fields.string({
+            label: "Minimum Cost ($)",
+            required: false,
+            errorAfterField: true,
+            validators: [validators.integer()]
+        }),
+        'max_cost': fields.string({
+            label: 'Maximum Cost ($)',
+            required: false,
+            errorAfterField: true,
+            validators: [validators.integer()]
+        }),
+        'gender_id': fields.string({
+            label: 'Gender',
+            required: false,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: genders
+        }),
+        'category_id': fields.string({
+            label: 'Category',
+            required: false,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: categories
+        })
     })
 }
 
