@@ -44,7 +44,7 @@ router.post('/login', (req,res)=>{
                     email: user.get('email')
                 }
                 req.flash("success_messages", "Welcome back, " + user.get('username'));
-                res.redirect('/users/profile');
+                res.redirect('/products');
             }
         },
         'error': async (form) => {
@@ -54,6 +54,12 @@ router.post('/login', (req,res)=>{
             })
         },
     })
+})
+
+router.get('/logout', (req, res) => {
+    req.session.user = null;
+    req.flash('success_messages', "Goodbye");
+    res.redirect('/users/login');
 })
 
 module.exports = router;

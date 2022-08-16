@@ -25,6 +25,11 @@ app.use(session({
 // set the view engine
 app.set("view engine", "hbs");
 
+// share sessions user data
+app.use(function (req, res, next) {
+  res.locals.user = req.session.user;
+  next();
+})
 
 // static folder
 app.use(express.static("public"));
