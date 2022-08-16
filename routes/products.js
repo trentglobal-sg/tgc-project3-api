@@ -20,7 +20,7 @@ router.get('/', async function (req, res) {
             })
 
             let products = productsData.toJSON();
-            console.log(products) //TODO why does search return all productys?
+            // console.log(products) 
 
             //get stock for seach results
             let newProducts = []
@@ -87,10 +87,11 @@ router.post('/create', async function (req, res) {
             const productData = { ...form.data, created_date }
             const product = new Product(productData)
             const saved = await product.save()
-            // await product.save();
-            console.log(saved.toJSON()) //TODO redirect to add new variant immediately?
+            // console.log(saved.toJSON())
 
-            res.redirect('/products')
+            let newProduct = saved.toJSON();
+
+            res.redirect('/products/' + newProduct.id + '/create-variant')
         },
         'error': (form) => {
             res.render('products/create', {
@@ -207,7 +208,9 @@ router.post('/:product_id/create-variant', async function (req, res) {
             const variant = new Variant(variantData)
             const saved = await variant.save()
 
-            res.redirect('/products/' + req.params.product_id)
+            const newVariant = saved.toJSON();
+
+            res.redirect('/products/' + req.params.product_id + '/variants/' + newVariant.id + '/add-product-variant') //TODO redirect to new create product variant?
         },
         'error': async (form) => {
             res.render('products/create-variant', {

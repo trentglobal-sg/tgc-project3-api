@@ -141,6 +141,17 @@ const createSearchForm = () =>{
             required: false,
             errorAfterField: true
         })
+        //search by brands from a drop down
+
+        //search by categories
+
+        //search by gender
+
+        //search by min cost
+
+        //search by max cost
+
+
     })
 }
 
