@@ -8,7 +8,7 @@ const helpers = require('handlebars-helpers')({
 const session = require('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
-const { checkIfAuthenticated} = require('../middlewares')
+const { checkIfAuthenticated} = require('./middlewares')
 
 
 

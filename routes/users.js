@@ -27,7 +27,7 @@ router.post('/login', (req,res)=>{
             //process login
             // ...find the user by email and password
             const user = await User.where({
-                'email': form.data.email,
+                'username': form.data.username,
                 'password': getHashedPassword(form.data.password)
             }).fetch({
                 require: false
@@ -35,7 +35,7 @@ router.post('/login', (req,res)=>{
 
             //check if the user does not exist
             if (!user) {
-                req.flash("error_messages", "Sorry, wrong email or password.")
+                req.flash("error_messages", "Sorry, wrong username or password.")
                 res.redirect('/users/login');
             } else {
                 // store the user details

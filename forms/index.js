@@ -180,7 +180,7 @@ const createSearchForm = (brands, genders, categories) =>{
 
 const createLoginForm = () => {
     return forms.create({
-        'email': fields.string({
+        'username': fields.string({
             required: true,
             errorAfterField: true,
         }),
