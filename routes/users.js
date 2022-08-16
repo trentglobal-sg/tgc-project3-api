@@ -41,7 +41,8 @@ router.post('/login', (req,res)=>{
                 req.session.user = {
                     id: user.get('id'),
                     username: user.get('username'),
-                    email: user.get('email')
+                    email: user.get('email'),
+                    role_id: user.get('role_id')
                 }
                 req.flash("success_messages", "Welcome back, " + user.get('username'));
                 res.redirect('/products');
@@ -60,6 +61,10 @@ router.get('/logout', (req, res) => {
     req.session.user = null;
     req.flash('success_messages', "Goodbye");
     res.redirect('/users/login');
+})
+
+router.get('/register', (req,res)=>{
+    res.render('users/register')
 })
 
 module.exports = router;

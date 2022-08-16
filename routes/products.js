@@ -3,9 +3,9 @@ const router = express.Router();
 const dataLayer = require('../dal/products');
 const { createProductForm, bootstrapField, createVariantForm, createProductVariantForm, createSearchForm } = require('../forms');
 const { Product, Variant, Product_variant, Brand } = require("../models");
-const { checkIfAuthenticatedAdmin} = require('../middlewares')
+const { checkIfAuthenticated} = require('../middlewares')
 
-router.get('/', checkIfAuthenticatedAdmin, async function (req, res) {
+router.get('/', checkIfAuthenticated, async function (req, res) {
     let allProducts = await dataLayer.getAllProducts();
     
     const allBrands = await dataLayer.getAllBrands();
