@@ -10,10 +10,13 @@ const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
 const { checkIfAuthenticated} = require('./middlewares')
 const csrf = require('csurf')
-
+const cors = require('cors')
 
 // create an instance of express app
 const app = express();
+
+// enable cors before sessions
+app.use(cors());
 
 // set up sessions
 app.use(session({
