@@ -9,7 +9,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
 const { checkIfAuthenticated} = require('./middlewares')
-
+const csrf = require('csurf')
 
 
 // create an instance of express app
@@ -57,6 +57,26 @@ app.use(function (req, res, next) {
   res.locals.error_messages = req.flash("error_messages");
   next();
 });
+
+//enable csruf protection
+// app.use(csrf());
+const csrfInstance = csrf();
+app.use(function (req, res, next) {
+    // console.log("checking for csrf exclusion")
+    // exclude whatever url we want from CSRF protection
+    if (req.url === "/checkout/process_payment" || req.url.slice(0,5) == '/api/'){
+        console.log("detected")
+        next();
+    } else {
+        csrfInstance(req, res, next);
+    }
+})
+app.use(function (req, res, next) {
+    if (req.csrfToken) {
+        res.locals.csrfToken = req.csrfToken();
+    }
+    next();
+})
 
 //ROUTES
 const landingRoutes = require('./routes/landing');
