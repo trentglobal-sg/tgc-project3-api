@@ -113,7 +113,8 @@ router.post('/create', async function (req, res) {
             // console.log(saved.toJSON())
 
             let newProduct = saved.toJSON();
-
+            //add in flash messages
+            req.flash('success_messages', `New product ${newProduct.product} has been created`)
             res.redirect('/products/' + newProduct.id + '/create-variant')
         },
         'error': (form) => {
@@ -177,7 +178,7 @@ router.get('/:product_id/update', async function (req, res) {
 
 router.post('/:product_id/update', async function (req, res) {
     const product = await dataLayer.getProductById(req.params.product_id);
-
+    const productData = product.toJSON();
     const brands = await dataLayer.getAllBrands();
     const categories = await dataLayer.getAllCategories();
     const genders = await dataLayer.getAllGenders();
@@ -195,7 +196,10 @@ router.post('/:product_id/update', async function (req, res) {
             console.log(updateForm)
             product.set(updateForm);
             product.save();
-            res.redirect('/products');
+
+            // add flash messages
+            req.flash('success_messages', `Product ${productData.product} updated`)
+            res.redirect('/products/' + req.params.product_id);
         },
         'error': async (form) => {
             res.render('products/update', {
@@ -233,7 +237,9 @@ router.post('/:product_id/create-variant', async function (req, res) {
 
             const newVariant = saved.toJSON();
 
-            res.redirect('/products/' + req.params.product_id + '/variants/' + newVariant.id + '/add-product-variant') //TODO redirect to new create product variant?
+            // add flash messages
+            req.flash('success_messages', `New variant ${newVariant.color_name} has been created`)
+            res.redirect('/products/' + req.params.product_id + '/variants/' + newVariant.id + '/add-product-variant') 
         },
         'error': async (form) => {
             res.render('products/create-variant', {
@@ -272,7 +278,10 @@ router.get('/:product_id/variants/:variant_id/add-product-variant/', async funct
 })
 
 router.post('/:product_id/variants/:variant_id/add-product-variant/', async function (req, res) {
-    const variant = await dataLayer.getVariantById(req.params.variant_id);
+    const productData = await dataLayer.getProductById(req.params.product_id)
+    const product = productData.toJSON()
+    const variantData = await dataLayer.getVariantById(req.params.variant_id)
+    const variant = variantData.toJSON()
     const sizes = await dataLayer.getAllSizes();
     const productVariantForm = createProductVariantForm(sizes);
 
@@ -283,12 +292,14 @@ router.post('/:product_id/variants/:variant_id/add-product-variant/', async func
             const product_variant = new Product_variant(product_variant_data)
             const saved = await product_variant.save()
 
+            //add flash message
+            req.flash('success_messages', `New product variant for ${product.product} - ${variant.color_name} has been created`)
             res.redirect('/products/' + req.params.product_id + '/variants/' + req.params.variant_id)
         },
         'error': async (form) => {
             res.render('products/create-product-variant', {
                 form: form.toHTML(bootstrapField),
-                variant: variant.toJSON()
+                variant: variant,
             })
         }
     })
@@ -323,6 +334,9 @@ router.post('/:product_id/variants/:variant_id/update-product-variant/:product_v
         'success': async (form) => {
             productVariant.set(form.data);
             productVariant.save();
+
+            // add flash messages
+            req.flash('success_messages', `Product variant updated`)
             res.redirect('/products/' + req.params.product_id + '/variants/' + req.params.variant_id);
         },
         'error': async (form) => {
@@ -368,6 +382,9 @@ router.post('/:product_id/update-variant/:variant_id', async function (req, res)
         'success': async (form) => {
             variant.set(form.data);
             variant.save();
+
+            // add flash messages
+            req.flash('success_messages', `Variant updated`)
             res.redirect('/products/' + req.params.product_id);
         },
         'error': async (form) => {
@@ -381,12 +398,6 @@ router.post('/:product_id/update-variant/:variant_id', async function (req, res)
         }
     })
 })
-
-
-
-
-
-
 
 
 module.exports = router;
