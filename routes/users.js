@@ -3,6 +3,7 @@ const router = express.Router();
 const crypto = require('crypto')
 const {createLoginForm, bootstrapField} = require('../forms')
 const {User} = require('../models')
+const { checkIfAuthenticated} = require('../middlewares')
 
 const getHashedPassword = (password) => {
     const sha256 = crypto.createHash('sha256');
@@ -63,7 +64,7 @@ router.get('/logout', (req, res) => {
     res.redirect('/users/login');
 })
 
-router.get('/register', (req,res)=>{
+router.get('/register',checkIfAuthenticated, (req,res)=>{
     res.render('users/register')
 })
 

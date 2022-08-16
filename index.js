@@ -8,6 +8,7 @@ const helpers = require('handlebars-helpers')({
 const session = require('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
+const { checkIfAuthenticated} = require('../middlewares')
 
 
 
@@ -67,9 +68,9 @@ const userRoutes = require('./routes/users')
 
 async function main() {
     app.use('/', landingRoutes);
-    app.use('/products', productRoutes);
-    app.use('/orders', orderRoutes);
-    app.use('/cloudinary', cloudinaryRoutes);
+    app.use('/products',checkIfAuthenticated ,productRoutes);
+    app.use('/orders',checkIfAuthenticated,orderRoutes);
+    app.use('/cloudinary',checkIfAuthenticated,cloudinaryRoutes);
     app.use('/users', userRoutes);
 }
 
