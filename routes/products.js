@@ -20,6 +20,9 @@ router.get('/', async function (req, res) {
 
     searchForm.handle(req, {
         'success': async (form) => {
+            if (form.data.id){
+                query.where('id', '=', form.data.id)
+            };
             if (form.data.product) {
                 query.where('product', 'like', '%' + form.data.product + '%')
             };

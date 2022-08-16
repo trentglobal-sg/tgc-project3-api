@@ -137,7 +137,14 @@ const createProductVariantForm = (sizes) => {
 
 const createSearchForm = (brands, genders, categories) =>{
     return forms.create({
+        'id': fields.string({
+            label: 'Product ID',
+            required: false,
+            errorAfterField: true,
+            validators: [validators.integer()]
+        }),
         'product': fields.string({
+            label: 'Product Name',
             required: false,
             errorAfterField: true
         }),
