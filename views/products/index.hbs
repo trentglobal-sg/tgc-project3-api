@@ -20,9 +20,8 @@
             <tr>
                 <th>ID</th>
                 <th>Product</th>
-                <th>Category</th>
-                <th>Gender</th>
                 <th>Brand</th>
+                <th>Category</th>
                 <th>Cost</th>
                 <th>Stock</th>
                 <th></th>
@@ -34,11 +33,11 @@
             <tr>
                 <td>{{this.id}}</td>
                 <td>{{this.product}}</td>
-                <td>{{this.category.category}}</td>
-                <td>{{this.gender.gender}}</td>
                 <td>{{this.brand.brand}}</td>
+                <td>{{this.category.category}} ({{this.gender.gender}})</td>
                 <td>${{divide this.cost 100}}</td>
-                <td>{{this.stock}}</td>
+                <td>Left: {{this.stock}} <br> Out:</td>
+                <td></td>
                 <td><img src="{{this.product_thumbnail_url}}"></td>
                 <td><a href="/products/{{this.id}}" class="btn btn-primary btn-sm me-2">View</a><a
                         href="/products/{{this.id}}/update" class="btn btn-primary btn-sm">Update</a></td>
