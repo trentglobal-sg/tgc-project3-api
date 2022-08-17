@@ -39,9 +39,9 @@
                     {{!-- <li class="nav-item">
                         <a class="nav-link" href="/users/register">Register User</a>
                     </li> --}}
-                    {{#if user}}
+                    {{#eq user.role_id 2}}
                     {{> registerNavLink}}
-                    {{/if}}
+                    {{/eq}}
                 </ul>
             </div>
             <div>

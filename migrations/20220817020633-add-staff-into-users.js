@@ -1,4 +1,11 @@
 'use strict';
+const crypto = require('crypto')
+const getHashedPassword = (password) => {
+  const sha256 = crypto.createHash('sha256');
+  const hash = sha256.update(password).digest('base64');
+  return hash
+}
+const password = getHashedPassword('staff')
 
 var dbm;
 var type;
@@ -15,9 +22,7 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  db.insert('roles', ['role'], ['Default']); 
-  db.insert('roles', ['role'], ['admin']); 
-  return
+  return db.insert('users', ['username', 'email', 'password', 'role_id'], ['staff', 'staff@email.com', password, '3'])
 };
 
 exports.down = function(db) {
