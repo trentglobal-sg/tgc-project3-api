@@ -8,7 +8,7 @@
 </div>
 {{!-- <div>
     <h3>Description: </h4>
-    <p>{{product.description}}</p>
+        <p>{{product.description}}</p>
 </div>
 
 <table class="table">
@@ -62,8 +62,11 @@
     </tbody>
 </table>
 
-<div><h3>Product Variants</h3></div>
-<a href="/products/{{productId}}/variants/{{variantId}}/add-product-variant/" class="btn btn-sm btn-primary">Add New Product Variant</a>
+<div>
+    <h3>Product Variants</h3>
+</div>
+<a href="/products/{{productId}}/variants/{{variantId}}/add-product-variant/" class="btn btn-sm btn-primary">Add New
+    Product Variant</a>
 <table class="table">
     <thead>
         <tr>
@@ -79,8 +82,9 @@
             <td>{{this.id}}</td>
             <td>{{this.size.size}}</td>
             <td>{{this.stock}}</td>
-            <td><a href="/products/{{../productId}}/variants/{{../variantId}}/update-product-variant/{{this.id}}" class="btn btn-sm btn-primary">Update</a>
-                <a href="#" class="btn btn-sm btn-danger">Delete</a>
+            <td><a href="/products/{{../productId}}/variants/{{../variantId}}/update-product-variant/{{this.id}}"
+                    class="btn btn-sm btn-primary">Update</a>
+                <a href="#" class="btn btn-sm btn-danger btn-delete" data-name="{{../product.product}}, {{../variant.color_name}}, {{this.size.size}}" data-product-variant-id="{{this.id}}" data-variant-id="{{../variantId}}" data-product-id="{{../productId}}" >Delete</a>
                 <a href="#" class="btn btn-primary btn-sm"> Test Add to Cart</a>
             </td>
         </tr>
@@ -90,5 +94,9 @@
 
 <a href="/products/{{productId}}" class="btn btn-sm btn-primary mt-6">Back to Product</a>
 
+{{/block}}
+
+{{#block 'js'}}
+{{> sweetAlertJs deleteTarget='productVariant'}}
 {{/block}}
 {{/extends}}

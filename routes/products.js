@@ -356,6 +356,14 @@ router.post('/:product_id/variants/:variant_id/update-product-variant/:product_v
     })
 })
 
+router.post('/:product_id/variants/:variant_id/delete-product-variant/:product_variant_id', async function(req,res){
+    //fetch the product variant that we want to delete
+    const productVariant = await dataLayer.getProductVariantById(req.params.product_variant_id)
+
+    await productVariant.destroy();
+    res.redirect('/products/' + req.params.product_id + '/variants/' + req.params.variant_id)
+})
+
 router.get('/:product_id/update-variant/:variant_id', async function (req, res) {
     const variant = await dataLayer.getVariantById(req.params.variant_id);
     const product = await dataLayer.getProductById(req.params.product_id)
