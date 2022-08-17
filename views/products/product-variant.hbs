@@ -79,7 +79,10 @@
             <td>{{this.id}}</td>
             <td>{{this.size.size}}</td>
             <td>{{this.stock}}</td>
-            <td><a href="/products/{{../productId}}/variants/{{../variantId}}/update-product-variant/{{this.id}}" class="btn btn-sm btn-primary">Update</a></td>
+            <td><a href="/products/{{../productId}}/variants/{{../variantId}}/update-product-variant/{{this.id}}" class="btn btn-sm btn-primary">Update</a>
+                <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                <a href="#" class="btn btn-primary btn-sm"> Test Add to Cart</a>
+            </td>
         </tr>
         {{/each}}
     </tbody>
