@@ -217,6 +217,14 @@ router.post('/:product_id/update', async function (req, res) {
     })
 })
 
+router.post('/:product_id/delete', async function(req,res){
+    //fetch product we want to delete
+    const product = await dataLayer.getProductById(req.params.product_id)
+
+    await product.destroy()
+    res.redirect('/products')
+})
+
 router.get('/:product_id/create-variant', async function (req, res) {
     const variantForm = createVariantForm()
     const product = await dataLayer.getProductById(req.params.product_id)

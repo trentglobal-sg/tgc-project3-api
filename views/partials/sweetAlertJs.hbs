@@ -35,7 +35,6 @@
         if (deleteTarget == 'variant'){
             form.action = `/products/${event.target.dataset.productId}/delete-variant/${event.target.dataset.variantId}`;
         }
-       ///:product_id/delete-variant/:variant_id
         document.querySelector('body').appendChild(form); // Connect hidden form to document body
         form.submit(); // Submit delete form with a function call
       }

@@ -42,7 +42,7 @@
                 <td><img src="{{this.product_thumbnail_url}}"></td>
                 <td><a href="/products/{{this.id}}" class="btn btn-primary btn-sm me-2">View</a><a
                         href="/products/{{this.id}}/update" class="btn btn-primary btn-sm">Update</a>
-                        <a href="#" class="btn btn-sm btn-danger">Delete</a></td>
+                        <a href="#" class="btn btn-sm btn-danger btn-delete" data-name="{{this.product}}" data-product-id="{{this.id}}">Delete</a></td>
             </tr>
             {{/each}}
         </tbody>
@@ -50,8 +50,10 @@
 </div>
 </div>
 
-
-
-
 {{/block}}
+
+{{#block 'js'}}
+{{> sweetAlertJs}}
+{{/block}}
+
 {{/extends}}
