@@ -10,12 +10,7 @@
       const deleteTarget = "{{deleteTarget}}"; // 'product' or 'variant' or 'productVariant'
       // Customise title of dialog box depending on whether product or variant is being deleted
       let title = `Confirm delete ${event.target.dataset.name} ?`;
-      //if (deleteTarget == 'variant') {
-        //title = `Confirm delete variant (ID: ${event.target.dataset.variantId}) ?`;
-      //}
-      //if (deleteTarget == 'product-variant') {
-        //title = `Confirm delete variant (ID: ${event.target.dataset.variantId}) ?`;
-      //} 
+      
       // Swal is the SweetAlert2 object
       const result = await Swal.fire({
         'title': title,
@@ -36,7 +31,11 @@
         if (deleteTarget == 'productVariant') {
           form.action = `/products/${event.target.dataset.productId}/variants/${event.target.dataset.variantId}/delete-product-variant/${event.target.dataset.productVariantId}`;
         }
-       // /:product_id/variants/:variant_id/delete-product-variant/:product_variant_id
+
+        if (deleteTarget == 'variant'){
+            form.action = `/products/${event.target.dataset.productId}/delete-variant/${event.target.dataset.variantId}`;
+        }
+       ///:product_id/delete-variant/:variant_id
         document.querySelector('body').appendChild(form); // Connect hidden form to document body
         form.submit(); // Submit delete form with a function call
       }

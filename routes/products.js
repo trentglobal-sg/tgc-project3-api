@@ -411,5 +411,13 @@ router.post('/:product_id/update-variant/:variant_id', async function (req, res)
     })
 })
 
+router.post('/:product_id/delete-variant/:variant_id', async function (req,res){
+    //fetch the variant that we want to delete
+    const variant = await dataLayer.getVariantById(req.params.variant_id)
+
+    await variant.destroy();
+    res.redirect('/products/' + req.params.product_id)
+})
+
 
 module.exports = router;
