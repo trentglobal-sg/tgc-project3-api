@@ -15,12 +15,15 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  db.insert('roles', ['role'], ['Default']); 
-  return
+  return db.addColumn('product_variants', 'sold', {
+    type: 'int',
+    unsigned: true,
+    defaultValue: 0
+  })
 };
 
 exports.down = function(db) {
-  return null;
+  return db.deleteColumn('product_variants', 'sold')
 };
 
 exports._meta = {

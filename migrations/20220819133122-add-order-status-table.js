@@ -15,12 +15,22 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  db.insert('roles', ['role'], ['Default']); 
-  return
+  return db.createTable('order_status', {
+    id: {
+      type: 'int',
+      primaryKey: true,
+      autoIncrement: true,
+      unsigned: true
+    },
+    order_status: {
+      type: 'string',
+      length: 30
+    }
+  })
 };
 
 exports.down = function(db) {
-  return null;
+  return db.dropTable('order_status')
 };
 
 exports._meta = {
