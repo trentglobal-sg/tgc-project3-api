@@ -198,9 +198,46 @@ const createLoginForm = () => {
     })
 }
 
+const createCustomerRegistrationForm = () => {
+    return forms.create({
+        'username': fields.string({
+            required: true,
+            errorAfterField: true,
+        }),
+        'first_name': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'last_name': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'contact_number': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'email': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'password': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'confirm_password': fields.string({
+            required: true,
+            errorAfterField: true,
+            validators: [validators.matchField('password')]
+        })
+       
+    })
+}
+
 module.exports = { bootstrapField, 
     createProductForm, 
     createVariantForm, 
     createProductVariantForm,
     createSearchForm,
-    createLoginForm }
+    createLoginForm,
+    createCustomerRegistrationForm    
+}

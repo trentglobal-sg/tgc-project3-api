@@ -105,6 +105,12 @@ const Product_variant = bookshelf.model('Product_variant', {
     },
     variant(){
         return this.belongsTo('Variant')
+    },
+    cart_item(){
+        return this.hasMany('Cart_item')
+    },
+    order_item(){
+        return this.hasMany('Order_item')
     }
 })
 
@@ -122,6 +128,60 @@ const User = bookshelf.model('User', {
     }
 })
 
+const Blacklisted_token = bookshelf.model('Blacklisted_token', {
+    tableName: 'blacklisted_tokens'
+})
+
+const Order_status = bookshelf.model('Order_status', {
+    tableName: 'order_status',
+    order(){
+        return this.hasMany('Order')
+    }
+})
+
+const Customer = bookshelf.model('Customer', {
+    tableName: 'customers',
+    order(){
+        return this.hasMany('Order')
+    },
+    cart_item(){
+        return this.hasMany('Cart_item')
+    }
+})
+
+const Order = bookshelf.model('Order', {
+    tableName: 'orders',
+    order_status(){
+        return this.belongsTo('Order_status')
+    },
+    customer(){
+        return this.belongsTo('Customer')
+    },
+    order_item(){
+        return hasMany('Order_item')
+    }
+})
+
+const Order_item = bookshelf.model('Order_item', {
+    tableName: 'order_items',
+    order(){
+        return this.belongsTo('Order')
+    },
+    product_variant(){
+        return this.belongsTo('Product_variant')
+    }
+})
+
+const Cart_item = bookshelf.model('Cart_item', {
+    tableName: 'cart_items',
+    customer(){
+        return this.belongsTo('Customer')
+    },
+    product_variant(){
+        return this.belongsTo('Product_variant')
+    }
+})
+
 module.exports = {Product, 
     Brand, 
     Category, 
@@ -134,4 +194,11 @@ module.exports = {Product,
     Size, 
     Product_variant,
     Role,
-    User,}
+    User,
+    Blacklisted_token,
+    Order_status,
+    Customer,
+    Order,
+    Order_item,
+    Cart_item
+}

@@ -87,6 +87,11 @@ const productRoutes = require('./routes/products');
 const orderRoutes = require('./routes/orders');
 const cloudinaryRoutes = require('./routes/cloudinary');
 const userRoutes = require('./routes/users')
+const api = {
+  products: require('./routes/api/products'),
+  // cart: require('./routes/api/cart'),
+  // customers: require('./routes/api/customers')
+}
 
 
 async function main() {
@@ -95,6 +100,9 @@ async function main() {
     app.use('/orders',checkIfAuthenticated,orderRoutes);
     app.use('/cloudinary',checkIfAuthenticated,cloudinaryRoutes);
     app.use('/users', userRoutes);
+    app.use('/api/products', express.json(), api.products);
+    // app.use('/api/cart', api.cart);
+    // app.use('/api/customers', api.customers);
 }
 
 main();
