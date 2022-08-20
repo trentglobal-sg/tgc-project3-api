@@ -6,7 +6,7 @@ const getCart = async (customerId) => {
             'customer_id' : customerId
         }).fetch({
             require: false,
-            withRelated: ['product_variant', 'product_variant.variant', 'product_variant.variant.product']
+            withRelated: ['product_variant', 'product_variant.variant', 'product_variant.variant.product', 'product_variant.size']
         })
 }
 
@@ -27,7 +27,7 @@ const getCartItemByUserAndProduct = async (customerId, productVariantId) => {
         'product_variant_id': productVariantId
     }).fetch({
         require: false,
-        withRelated: ['product_variant', 'product_variant.variant', 'product_variant.variant.product']
+        withRelated: ['product_variant', 'product_variant.variant', 'product_variant.variant.product', 'product_variant.size']
     })
 }
 
