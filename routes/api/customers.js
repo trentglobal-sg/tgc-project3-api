@@ -128,7 +128,7 @@ router.post('/logout', async function(req,res){
                 // add to blacklist
                 const token = new Blacklisted_token();
                 token.set('blacklisted_token', refreshToken);
-                token.get('date_created', new Date());
+                token.get('created_date', new Date());
                 await token.save();
                 res.json({
                     'message': 'logged out'
