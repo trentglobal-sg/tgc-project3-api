@@ -52,10 +52,12 @@ router.get('/', async function (req, res) {
             //get stock for seach results
             let newProducts = []
             for (let product of products) {
-                const stock = await dataLayer.getStockOfAllVariants(product.id)
-                product = { ...product, stock }
+                const stock = await dataLayer.getStockOfAllVariants(product.id);
+                const sold = await dataLayer.getSoldOfAllVariants(product.id);
+                product = { ...product, stock, sold }
                 newProducts.push(product)
             }
+            // console.log(newProducts)
 
             res.render("products/index", {
                 'products': newProducts,

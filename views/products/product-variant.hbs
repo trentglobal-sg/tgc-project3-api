@@ -73,6 +73,7 @@
             <th>ID</th>
             <th>Size</th>
             <th>Stock</th>
+            <th>Sold</th>
             <th></th>
         </tr>
     </thead>
@@ -82,6 +83,7 @@
             <td>{{this.id}}</td>
             <td>{{this.size.size}}</td>
             <td>{{this.stock}}</td>
+            <td>{{this.sold}}</td>
             <td><a href="/products/{{../productId}}/variants/{{../variantId}}/update-product-variant/{{this.id}}"
                     class="btn btn-sm btn-primary">Update</a>
                 <a href="#" class="btn btn-sm btn-danger btn-delete" data-name="{{../product.product}}, {{../variant.color_name}}, {{this.size.size}}" data-product-variant-id="{{this.id}}" data-variant-id="{{../variantId}}" data-product-id="{{../productId}}" >Delete</a>

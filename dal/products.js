@@ -14,7 +14,8 @@ async function getAllProducts(){
     let newAllProducts = []
     for (let product of allProducts) {
         const stock = await getStockOfAllVariants(product.id)
-        product = {...product, stock}
+        const sold = await getSoldOfAllVariants(product.id)
+        product = {...product, stock, sold}
         newAllProducts.push(product)
     }
     return newAllProducts;
@@ -101,7 +102,8 @@ async function getProductVariants(productId){
     let newVariants = [];
     for (let variant of variants){
         const stock = await getStockOfVariant(variant.id);
-        variant = {...variant, stock};
+        const sold = await getSoldOfVariant(variant.id);
+        variant = {...variant, stock, sold};
         newVariants.push(variant);
     }
     return newVariants;
@@ -184,6 +186,46 @@ async function getStockOfVariant(variantId){
     // console.log(variantStock)
 }
 
+async function getSoldOfVariant(variantId){
+    //for this variant, get its product variants
+    const productVariantsData = await getAllProductVariantsByVariant(variantId);
+    let productVariants = productVariantsData.toJSON();
+    let variantSold = 0;
+    productVariants.map(productVariant => {
+        variantSold = variantSold + productVariant.sold
+    })
+    return variantSold;
+    // console.log(variantStock)
+}
+
+async function getSoldOfAllVariants(productId){
+    //for each product, get all its variant ids
+    let variantIds = []
+    let allVariantsData = await getProductVariants(productId)
+    let variants = allVariantsData
+    variants.map(variant => {
+        variantIds.push(variant.id)
+    })
+    // console.log(variantIds)
+
+    let productSold = 0;
+    //for each variant id, get all its product variants
+    for (let variantId of variantIds) {
+       const productVariantsData = await getAllProductVariantsByVariant(variantId);
+    //    console.log(productVariantsData.toJSON())
+       let productVariants = productVariantsData.toJSON()
+        // loop through the product variants and extract the stock
+        let variantSold = 0;
+        productVariants.map(productVariant => {
+            variantSold = variantSold + productVariant.sold
+        })
+        // console.log('variantstock:' + variantStock)
+        productSold = productSold + variantSold
+    }
+    // console.log('productSold:' + productSold)
+    return productSold;
+}
+
 module.exports = {getAllProducts, 
     getProductById, 
     getAllBrands, 
@@ -199,4 +241,6 @@ module.exports = {getAllProducts,
     getAllProductVariantsByVariant, 
     getProductVariantById,
     getStockOfAllVariants,
-    getStockOfVariant}
+    getStockOfVariant,
+    getSoldOfVariant,
+    getSoldOfAllVariants}

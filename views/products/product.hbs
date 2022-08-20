@@ -50,6 +50,7 @@
             <th>Color Code</th>
             <th>Image</th>
             <th>Stock</th>
+            <th>Sold</th>
             <td></td>
         </tr>
     </thead>
@@ -61,6 +62,7 @@
             <td>{{this.color_code}}</td>
             <td><img src="{{this.variant_thumbnail_url}}" /></td>
             <td>{{this.stock}}</td>
+            <td>{{this.sold}}</td>
             <td><a href="/products/{{../product.id}}/update-variant/{{this.id}}" class="btn btn-primary btn-sm me-2">Update</a>
             <a href="/products/{{../product.id}}/variants/{{this.id}}" class="btn btn-primary btn-sm me-2">See Product Variants</a>
             <a href="#" class="btn btn-sm btn-danger btn-delete" data-name="{{../product.product}}, {{this.color_name}}" data-variant-id="{{this.id}}" data-product-id="{{../product.id}}">Delete</a></td>
