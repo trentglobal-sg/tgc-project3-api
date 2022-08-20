@@ -19,7 +19,7 @@ const checkIfAuthenticatedJWT = function (req,res,next){
         // console.log(token)
         jwt.verify(token, process.env.TOKEN_SECRET, function(err,tokenData){
             // err argument is null if there is no error
-            //token data arugment is the data we embed
+            //token data argument is the data we embed
             if(err){
                 res.status(401);
                 res.json({

@@ -8,7 +8,7 @@ const helpers = require('handlebars-helpers')({
 const session = require('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
-const { checkIfAuthenticated} = require('./middlewares')
+const { checkIfAuthenticated, checkIfAuthenticatedJWT} = require('./middlewares')
 const csrf = require('csurf')
 const cors = require('cors')
 
@@ -89,8 +89,9 @@ const cloudinaryRoutes = require('./routes/cloudinary');
 const userRoutes = require('./routes/users')
 const api = {
   products: require('./routes/api/products'),
-  // cart: require('./routes/api/cart'),
-  customers: require('./routes/api/customers')
+  cart: require('./routes/api/cart'),
+  customers: require('./routes/api/customers'),
+  checkout: require('./routes/api/checkout')
 }
 
 
@@ -101,8 +102,9 @@ async function main() {
     app.use('/cloudinary',checkIfAuthenticated,cloudinaryRoutes);
     app.use('/users', userRoutes);
     app.use('/api/products', express.json(), api.products);
-    // app.use('/api/cart', api.cart);
+    app.use('/api/cart', express.json(), checkIfAuthenticatedJWT, api.cart);
     app.use('/api/customers', express.json(), api.customers);
+    app.use('/api/checkout', checkIfAuthenticatedJWT, api.checkout);
 }
 
 main();
