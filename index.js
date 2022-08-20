@@ -90,7 +90,7 @@ const userRoutes = require('./routes/users')
 const api = {
   products: require('./routes/api/products'),
   // cart: require('./routes/api/cart'),
-  // customers: require('./routes/api/customers')
+  customers: require('./routes/api/customers')
 }
 
 
@@ -102,7 +102,7 @@ async function main() {
     app.use('/users', userRoutes);
     app.use('/api/products', express.json(), api.products);
     // app.use('/api/cart', api.cart);
-    // app.use('/api/customers', api.customers);
+    app.use('/api/customers', express.json(), api.customers);
 }
 
 main();
