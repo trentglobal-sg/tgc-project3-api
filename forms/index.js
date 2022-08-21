@@ -198,23 +198,11 @@ const createLoginForm = () => {
     })
 }
 
-const createCustomerRegistrationForm = () => {
+const createUserForm = (roles) => {
     return forms.create({
         'username': fields.string({
             required: true,
             errorAfterField: true,
-        }),
-        'first_name': fields.string({
-            required: true,
-            errorAfterField: true
-        }),
-        'last_name': fields.string({
-            required: true,
-            errorAfterField: true
-        }),
-        'contact_number': fields.string({
-            required: true,
-            errorAfterField: true
         }),
         'email': fields.string({
             required: true,
@@ -228,8 +216,14 @@ const createCustomerRegistrationForm = () => {
             required: true,
             errorAfterField: true,
             validators: [validators.matchField('password')]
+        }),
+        'role_id': fields.string({
+            label: "Role",
+            required: true,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: roles
         })
-       
     })
 }
 
@@ -239,5 +233,5 @@ module.exports = { bootstrapField,
     createProductVariantForm,
     createSearchForm,
     createLoginForm,
-    createCustomerRegistrationForm    
+    createUserForm    
 }

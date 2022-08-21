@@ -1,15 +1,54 @@
 const express = require('express')
 const router = express.Router();
-const crypto = require('crypto')
-const {createLoginForm, bootstrapField} = require('../forms')
+const {createLoginForm, createUserForm, bootstrapField} = require('../forms')
 const {User} = require('../models')
 const { checkIfAuthenticated} = require('../middlewares')
+const usersDataLayer = require('../dal/users')
+const {getHashedPassword} = require('../utilities')
 
-const getHashedPassword = (password) => {
-    const sha256 = crypto.createHash('sha256');
-    const hash = sha256.update(password).digest('base64');
-    return hash;
-}
+router.get('/', async (req,res)=>{
+    const allUsers = await usersDataLayer.getAllUsers()
+
+    res.render('users', {
+        users: allUsers
+    })
+})
+
+router.get('/register', async (req,res)=>{
+    const allRoles = await usersDataLayer.getAllRoles()
+    const registerForm = createUserForm(allRoles)
+
+    res.render('users/register', {
+        'form': registerForm.toHTML(bootstrapField)
+    })
+})
+
+router.post('/register', (req,res)=>{
+    const registerForm = createUserForm();
+
+    registerForm.handle(req,{
+        'success': async (form) => {
+            const password = getHashedPassword(form.data.password)
+            const userData = {
+                username: form.data.username,
+                email : form.data.email,
+                password: password,
+                role_id: form.data.role_id
+            }
+            const user = await usersDataLayer.registerUser(userData)
+
+            // const user = await usersDataLayer.registerUser(form.data);
+            req.flash("success_messages", "User successfully added")
+            res.redirect('/users')
+        },
+        'error': async(form) => {
+            req.flash("error_messages", "Please ensure there are no errors in the form fields")
+            res.render('users/register', {
+                "form": form.toHTML(bootstrapField)
+            })
+        },
+    })
+})
 
 router.get('/login', (req,res)=>{
     const loginForm = createLoginForm()
