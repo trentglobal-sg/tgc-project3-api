@@ -4,6 +4,8 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const {Customer, Blacklisted_token} = require('../../models');
 const { checkIfAuthenticatedJWT } = require('../../middlewares');
+const {validateEmail} = require('../../utilities')
+const customerDataLayer = require('../../dal/customers')
 
 const getHashedPassword = (password) => {
     const sha256 = crypto.createHash('sha256');
@@ -22,6 +24,67 @@ const generateAccessToken = function (username, id, email, tokenSecret, expiry) 
         expiresIn: expiry
     })
 }
+
+router.post('/register', async function(req,res) {
+    let error = {};
+    const username = req.body.username;
+    if (username.length == 0 || username.length > 100) {
+        error.name = "Please choose a username of less than 100 characters"
+    }
+
+    const first_name = req.body.first_name;
+    if (first_name.length == 0 || first_name.length > 100) {
+        error.first_name = "Please enter first name of less than 100 characters"
+    }
+
+    const last_name = req.body.last_name;
+    if (last_name.length == 0 || last_name.length > 100) {
+        error.first_name = "Please enter last name of less than 100 characters"
+    }
+
+    const email  = req.body.email;
+    if (!validateEmail(email)) {
+        error.email = "Please enter a valid email address"
+    }
+
+    const password = req.body.password;
+    if (password.length == 0 || password.length > 100 || password.length < 8) {
+        error.password = "Please choose a password between 8 and 100 characters "
+    }
+
+    const contact_number = req.body.contact_number;
+    if(contact_number.length == 0 || contact_number.length > 12) {
+        error.contact_number = "Please enter contact number of less than 12 characters"
+    }
+
+    if (Object.keys(error).length > 0){
+        res.status(400);
+        res.json({error: error});
+        return
+    }
+
+    const customerData = {
+        username: username,
+        first_name: first_name,
+        last_name: last_name,
+        email: email,
+        password: getHashedPassword(password),
+        contact_number: contact_number,
+        created_date: new Date(),
+    }
+
+    // res.json(customerData)
+    try {
+        const customer = await customerDataLayer.registerCustomer(customerData);
+        res.status(201);
+        res.json({customer: customer})
+    } catch (error) {
+        res.status(500)
+        res.json({error: "Internal server error. Please contact administrator"})
+        console.log(error)
+    }
+})
+
 
 router.post('/login', async function (req, res) {
     const customer = await Customer.where({
@@ -142,5 +205,7 @@ router.post('/logout', checkIfAuthenticatedJWT,async function(req,res){
         })
     }
 })
+
+
 
 module.exports = router;
