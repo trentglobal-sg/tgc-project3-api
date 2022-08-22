@@ -1,6 +1,31 @@
 {{#extends "base"}}
 {{#block "content"}}
 <h1>Orders</h1>
-
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Customer</th>
+            <th>Order Date</th>
+            <th>Updated Date</th>
+            <th>Amount</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each orders}}
+        <tr>
+            <td>{{this.id}}</td>
+            <td>{{this.order_status.order_status}}</td>
+            <td>{{this.customer.first_name}} {{this.customer.last_name}}</td>
+            <td>{{moment this.order_date format="YYYY-MM-DD"}}</td>
+            <td>{{moment this.updated_date format="YYYY-MM-DD"}}</td>
+            <td>$ {{divide this.total_amount 100}}</td>
+            <td><a href="/orders/{{this.id}}" class="btn btn-sm btn-primary">More</a></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
 {{/block}}
 {{/extends}}

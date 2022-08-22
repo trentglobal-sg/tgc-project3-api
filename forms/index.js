@@ -227,11 +227,28 @@ const createUserForm = (roles) => {
     })
 }
 
+const updateOrderForm = (orderStatus)=>{
+    return forms.create({
+        'order_status_id': fields.string({
+            label: "Status",
+            required: false,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: orderStatus
+        }),
+        'remarks': fields.string({
+            required: false,
+            errorAfterField: true,
+        })
+    })
+}
+
 module.exports = { bootstrapField, 
     createProductForm, 
     createVariantForm, 
     createProductVariantForm,
     createSearchForm,
     createLoginForm,
-    createUserForm    
+    createUserForm,
+    updateOrderForm    
 }

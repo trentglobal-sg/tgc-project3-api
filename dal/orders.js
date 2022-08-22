@@ -1,4 +1,4 @@
-const {Order, Order_item} = require('../models')
+const {Order, Order_item, Order_status} = require('../models')
 
 const createOrder = async (orderData) =>{
     const order = new Order(orderData);
@@ -19,8 +19,27 @@ const getAllOrders = async () =>{
     return allOrders;
 }
 
+const getAllOrderStatus = async ()=>{
+    const orderStatus = await Order_status.fetchAll().map(status => {
+        return [status.get('id'), status.get('order_status')]
+    });
+    return orderStatus
+}
+
+const getOrderById = async (orderId)=>{
+    const order = await Order.where({
+        'id': orderId
+    }).fetch({
+        require: true,
+        withRelated:['order_status', 'customer', 'order_item']
+    })
+    return order;
+}
+
 module.exports = {
     createOrder,
     createOrderItem,
-    getAllOrders
+    getAllOrders,
+    getAllOrderStatus,
+    getOrderById
 }
