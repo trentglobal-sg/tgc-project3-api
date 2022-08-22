@@ -47,6 +47,10 @@ exports.up = function(db) {
           onUpdate: 'restrict'
         }
       }
+    },
+    quantity: {
+      type: 'int',
+      unsigned: true
     }
   })
 };

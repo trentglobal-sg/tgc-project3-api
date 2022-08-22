@@ -16,11 +16,19 @@ async function getCart(customerId){
 
 async function updateQuantity(customerId, productVariantId, newQuantity){
     //TODO check if the quantity matches the business rule
-    return cartDataLayer.updateQuantity(customerId, productVariantId, newQuantity)
+    return await cartDataLayer.updateQuantity(customerId, productVariantId, newQuantity)
 }
 
 async function removeCartItem(customerId, productVariantId){
-    return cartDataLayer.removeCartItem(customerId, productVariantId)
+    return await cartDataLayer.removeCartItem(customerId, productVariantId)
 }
 
-module.exports = {addToCart, getCart, updateQuantity,removeCartItem}
+async function emptyCart(customerId){
+    const cartItems = await getCart(customerId);
+    for (let item of cartItems){
+        productVariantId = item.get('product_variant_id');
+        await removeCartItem(customerId, productVariantId)
+    }
+}
+
+module.exports = {addToCart, getCart, updateQuantity,removeCartItem, emptyCart}

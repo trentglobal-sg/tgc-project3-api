@@ -226,6 +226,28 @@ async function getSoldOfAllVariants(productId){
     return productSold;
 }
 
+async function getStockOfProductVariant(product_variant_id){
+    const productVariant = await getProductVariantById(product_variant_id)
+    let stock = productVariant.get('stock');
+    return stock;
+}
+
+async function getSoldOfProductVariant(product_variant_id){
+    const productVariant = await getProductVariantById(product_variant_id)
+    let sold = productVariant.get('sold');
+    return sold;
+}
+
+async function updateProductVariant(product_variant_id, data){
+    const productVariant = await getProductVariantById(product_variant_id);
+    if (!productVariant){
+        return;
+    }
+    productVariant.set(data);
+    await productVariant.save();
+    return true;
+}
+
 module.exports = {getAllProducts, 
     getProductById, 
     getAllBrands, 
@@ -243,4 +265,7 @@ module.exports = {getAllProducts,
     getStockOfAllVariants,
     getStockOfVariant,
     getSoldOfVariant,
-    getSoldOfAllVariants}
+    getSoldOfAllVariants,
+    getStockOfProductVariant,
+    getSoldOfProductVariant,
+    updateProductVariant}

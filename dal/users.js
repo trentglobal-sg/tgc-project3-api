@@ -1,9 +1,6 @@
 const {User, Role} = require('../models')
 
 const registerUser = async (userData) => {
-    
-
-
     const user = new User(userData);
     await user.save();
 

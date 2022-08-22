@@ -35,18 +35,22 @@ exports.up = function(db) {
         }
       }
     },
-    customer_id: {
+    order_id: {
       type: 'int',
       unsigned: true,
       foreignKey: {
-        name: 'orderitems_customers_fk',
-        table: 'customers',
+        name: 'orderitems_orders_fk',
+        table: 'orders',
         mapping: 'id',
         rules: {
           onDelete: 'cascade',
           onUpdate: 'restrict'
         }
       }
+    },
+    quantity: {
+      type: 'int',
+      unsigned: true
     }
   })
 };
