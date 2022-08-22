@@ -5,6 +5,8 @@
     <thead>
         <tr>
             <th>Customer</th>
+            <th>Email</th>
+            <th>Contact</th>
             <th>Order Date</th>
             <th>Updated Date</th>
             <th>Shipping</th>
@@ -14,6 +16,8 @@
     <tbody>
         <tr>
             <td>{{order.customer.first_name}} {{order.customer.last_name}}</td>
+            <td>{{order.customer.email}}</td>
+            <td>{{order.customer.contact_number}}</td>
             <td>{{moment order.order_date format="YYYY-MM-DD"}}</td>
             <td>{{moment order.updated_date format="YYYY-MM-DD"}}</td>
             <td>{{order.shipping_type}}</td>
