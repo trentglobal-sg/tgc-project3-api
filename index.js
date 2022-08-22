@@ -104,11 +104,11 @@ async function main() {
     app.use('/api/products', express.json(), api.products);
     app.use('/api/cart', express.json(), checkIfAuthenticatedJWT, api.cart);
     app.use('/api/customers', express.json(), api.customers);
-    app.use('/api/checkout', checkIfAuthenticatedJWT, api.checkout);
+    app.use('/api/checkout', api.checkout);
 }
 
 main();
 
-app.listen(3000, () => {
+app.listen(8000, () => {
   console.log("Server started");
 });
