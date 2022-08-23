@@ -6,6 +6,13 @@ const {Product, Brand, Category, Gender, Activity, Blend, Micron, Fit, Variant, 
 //     })
 // }
 
+async function getAllProductsApi(){
+    let allProductsData = await Product.fetchAll({
+        withRelated: ['brand', 'category', 'gender', 'activity', 'blend', 'micron', 'fit', 'variant']
+    })
+    return allProductsData;
+}
+
 async function getAllProducts(){
     let allProductsData = await Product.fetchAll({
         withRelated: ['brand', 'gender', 'category']
@@ -249,7 +256,9 @@ async function updateProductVariant(product_variant_id, data){
     return true;
 }
 
-module.exports = {getAllProducts, 
+module.exports = {
+    getAllProductsApi,
+    getAllProducts, 
     getProductById, 
     getAllBrands, 
     getAllCategories, 
