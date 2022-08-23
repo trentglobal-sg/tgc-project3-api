@@ -24,7 +24,11 @@ router.get('/', async function (req, res) {
                 query.where('id', '=', form.data.id)
             };
             if (form.data.product) {
-                query.where('product', 'like', '%' + form.data.product + '%')
+                if(process.env.DB_DRIVER == 'mysql'){
+                    query.where('product', 'like', '%' + form.data.product + '%')
+                } else {
+                    query.where('product', 'ilike', '%' + form.data.product + '%')
+                }
             };
             if (form.data.brand_id && form.data.brand_id != '0'){
                 query.where('brand_id', '=', form.data.brand_id)
