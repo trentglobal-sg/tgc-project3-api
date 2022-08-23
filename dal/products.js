@@ -98,6 +98,16 @@ async function getAllFits(){
 //     return variants;
 // }
 
+async function getVariantsApi(productId){
+    const variantsData = await Variant.collection().where({
+        'product_id': productId
+    }).fetch({
+        require: false,
+        withRelated: ['product']
+    })
+    return variantsData
+}
+
 async function getProductVariants(productId){
     const variantsData = await Variant.collection().where({
         'product_id': productId
@@ -266,7 +276,8 @@ module.exports = {
     getAllActivities, 
     getAllBlends, 
     getAllMicrons, 
-    getAllFits, 
+    getAllFits,
+    getVariantsApi, 
     getProductVariants, 
     getAllSizes, 
     getVariantById, 

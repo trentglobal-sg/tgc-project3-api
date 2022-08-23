@@ -10,7 +10,7 @@ const productDataLayer = require('../../dal/products')
 router.get('/', async function (req, res) {
     //step1: create a line item
     //each item in the shopping cart is a line item
-    const cartData = await cartServices.getCart(req.customer.id);
+    const cartData = await cartServices.getCart(4);
     // const cartData = await cartServices.getCart(1);
     items = cartData.toJSON();
 
@@ -34,7 +34,7 @@ router.get('/', async function (req, res) {
         console.log(lineItems)
 
         meta.push({
-            'customer_id': req.customer.id,
+            'customer_id': 4,
             // 'customer_id': 1,
             'product_variant_id': item.product_variant_id,
             'quantity': item.quantity
