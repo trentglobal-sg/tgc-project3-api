@@ -1,4 +1,5 @@
 const cartDataLayer = require('../dal/cart')
+const productsDataLayer = require('../dal/products')
 
 async function addToCart(customerId, productVariantId, quantity){
     const cart_item = await cartDataLayer.getCartItemByUserAndProduct(customerId, productVariantId)
@@ -16,7 +17,12 @@ async function getCart(customerId){
 
 async function updateQuantity(customerId, productVariantId, newQuantity){
     //TODO check if the quantity matches the business rule
-    return await cartDataLayer.updateQuantity(customerId, productVariantId, newQuantity)
+    let stock = await productsDataLayer.getStockOfProductVariant(productVariantId)
+    if (stock > 10 && stock > newQuantity){
+        return await cartDataLayer.updateQuantity(customerId, productVariantId, newQuantity)
+    } else {
+        return false;
+    } 
 }
 
 async function removeCartItem(customerId, productVariantId){
