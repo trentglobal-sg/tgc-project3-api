@@ -38,7 +38,7 @@
                 <td>{{this.category.category}} ({{this.gender.gender}})</td>
                 <td>${{divide this.cost 100}}</td>
                 <td>Left: {{this.stock}} <br> Sold:{{this.sold}}</td>
-                <td></td>
+                <td>${{divide this.revenue 100}}</td>
                 <td><img src="{{this.product_thumbnail_url}}"></td>
                 <td><a href="/products/{{this.id}}" class="btn btn-primary btn-sm me-2">View</a><a
                         href="/products/{{this.id}}/update" class="btn btn-primary btn-sm">Update</a>

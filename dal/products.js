@@ -15,7 +15,8 @@ async function getAllProducts(){
     for (let product of allProducts) {
         const stock = await getStockOfAllVariants(product.id)
         const sold = await getSoldOfAllVariants(product.id)
-        product = {...product, stock, sold}
+        const revenue = product.cost * sold
+        product = {...product, stock, sold, revenue}
         newAllProducts.push(product)
     }
     return newAllProducts;
