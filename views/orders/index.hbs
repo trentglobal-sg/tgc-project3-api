@@ -1,31 +1,53 @@
 {{#extends "base"}}
 {{#block "content"}}
 <h1>Orders</h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Status</th>
-            <th>Customer</th>
-            <th>Order Date</th>
-            <th>Updated Date</th>
-            <th>Amount</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each orders}}
-        <tr>
-            <td>{{this.id}}</td>
-            <td>{{this.order_status.order_status}}</td>
-            <td>{{this.customer.first_name}} {{this.customer.last_name}}</td>
-            <td>{{moment this.order_date format="YYYY-MM-DD"}}</td>
-            <td>{{moment this.updated_date format="YYYY-MM-DD"}}</td>
-            <td>$ {{divide this.total_amount 100}}</td>
-            <td><a href="/orders/{{this.id}}" class="btn btn-sm btn-primary">More</a></td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+<div class="row">
+<div class="col-12 col-lg-2">
+    <h2>Search</h2>
+    <form method="GET">
+        {{{form}}}
+        <input type="submit" class="btn btn-sm btn-primary mt-2" />
+        {{> csrf}}
+        <a href="/orders" class="btn btn-sm btn-danger mt-2">Clear Search</a>
+    </form>
+</div>
+
+<div class="col-12 col-lg-9">
+    <h2>Orders</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Status</th>
+                <th>Customer</th>
+                <th>Order Date</th>
+                <th>Updated Date</th>
+                <th>Amount</th>
+                <th>Shipping Type</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each orders}}
+            <tr>
+                <td>{{this.id}}</td>
+                <td>{{this.order_status.order_status}}</td>
+                <td>{{this.customer.first_name}} {{this.customer.last_name}} <br> ID: {{this.customer.id}} <br> {{this.customer.email}}</td>
+                <td>{{moment this.order_date format="YYYY-MM-DD"}}</td>
+                <td>{{moment this.updated_date format="YYYY-MM-DD"}}</td>
+                <td>$ {{divide this.total_amount 100}}</td>
+                <td>{{this.shipping_type}}</td>
+                <td><a href="/orders/{{this.id}}" class="btn btn-sm btn-primary">More</a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</div>
+
+</div>
+
+
+
 {{/block}}
 {{/extends}}

@@ -243,6 +243,30 @@ const updateOrderForm = (orderStatus)=>{
     })
 }
 
+const createOrderSearchForm = (order_status) => {
+    return forms.create({
+        'id': fields.string({
+            label: 'Order ID',
+            required: false,
+            errorAfterField: true,
+            validators: [validators.integer()]
+        }),
+        'email': fields.string({
+            label: 'Email',
+            required: false,
+            errorAfterField: true
+        }),
+        //search by order status from a drop down
+        'order_status_id': fields.string({
+            label: 'Status',
+            required: false,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: order_status
+        }),
+    })
+}
+
 module.exports = { bootstrapField, 
     createProductForm, 
     createVariantForm, 
@@ -250,5 +274,6 @@ module.exports = { bootstrapField,
     createSearchForm,
     createLoginForm,
     createUserForm,
-    updateOrderForm    
+    updateOrderForm,
+    createOrderSearchForm    
 }
