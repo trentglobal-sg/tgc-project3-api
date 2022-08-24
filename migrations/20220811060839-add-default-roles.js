@@ -15,8 +15,7 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  db.insert('roles', ['role'], ['Admin']); 
-  return
+  return db.insert('roles', ['role'], ['Admin']); 
 };
 
 exports.down = function(db) {

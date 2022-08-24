@@ -41,7 +41,6 @@ exports.up = function(db) {
     product_id: {
       type: 'int',
       unsigned: true,
-      defaultValue: 1,
       foreignKey: {
         name: 'variants_products_fk',
         table: 'products',

@@ -43,8 +43,6 @@ exports.up = function(db) {
     fit_id:{
       type: 'int',
       unsigned: true,
-      notNull: true,
-      defaultValue: 1,
       foreignKey: {
         name: 'products_fits_fk',
         table: 'fits',
@@ -58,8 +56,6 @@ exports.up = function(db) {
     micron_id: {
       type: 'int',
       unsigned: true,
-      notNull: true,
-      defaultValue: 1,
       foreignKey: {
         name: 'products_microns_fk',
         table: 'microns',
@@ -73,8 +69,6 @@ exports.up = function(db) {
     blend_id: {
       type: 'int',
       unsigned: true,
-      notNull: true,
-      defaultValue: 1,
       foreignKey: {
         name: 'products_blends_fk',
         table: 'blends',
@@ -88,8 +82,6 @@ exports.up = function(db) {
     activity_id: {
       type: 'int',
       unsigned: true,
-      notNull: true,
-      defaultValue: 1,
       foreignKey: {
         name: 'products_activities_fk',
         table: 'activities',
@@ -103,8 +95,6 @@ exports.up = function(db) {
     gender_id: {
       type: 'int',
       unsigned: true,
-      notNull: true,
-      defaultValue: 1,
       foreignKey: {
         name: 'products_genders_fk',
         table: 'genders',
@@ -118,8 +108,6 @@ exports.up = function(db) {
     category_id: {
       type: 'int',
       unsigned: true,
-      notNull: true,
-      defaultValue: 1,
       foreignKey: {
         name: 'products_categories_fk',
         table: 'categories',
@@ -133,8 +121,6 @@ exports.up = function(db) {
     brand_id: {
       type: 'int',
       unsigned: true,
-      notNull: true,
-      defaultValue: 1,
       foreignKey: {
         name: 'products_brands_fk',
         table: 'brands',

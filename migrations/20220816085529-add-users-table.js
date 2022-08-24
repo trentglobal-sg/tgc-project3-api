@@ -37,7 +37,6 @@ exports.up = function(db) {
     role_id: {
       type: 'int',
       unsigned: true,
-      defaultValue: 1,
       foreignKey: {
         name: 'users_roles_fk',
         table: 'roles',

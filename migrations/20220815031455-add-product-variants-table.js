@@ -29,7 +29,6 @@ exports.up = function(db) {
     size_id: {
       type: 'int',
       unsigned: true,
-      defaultValue: 1,
       foreignKey: {
         name: 'productvariants_sizes_fk',
         table: 'sizes',
@@ -43,7 +42,6 @@ exports.up = function(db) {
     variant_id: {
       type: 'int',
       unsigned: true,
-      defaultValue: 1,
       foreignKey: {
         name: 'productvariants_variants_fk',
         table: 'variants',
