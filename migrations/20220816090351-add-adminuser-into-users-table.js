@@ -22,7 +22,7 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.insert('users', ['username', 'email', 'password', 'role_id'], ['admin', 'admin@email.com', password, '2'])
+  return db.insert('users', ['username', 'email', 'password', 'role_id'], ['admin', 'admin@email.com', password, '1'])
 };
 
 exports.down = function(db) {
