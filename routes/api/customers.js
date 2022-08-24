@@ -119,7 +119,7 @@ router.get('/profile', checkIfAuthenticatedJWT, function (req, res) {
 })
 
 //get a new access token
-router.post('/refresh',async function (req, res) {
+router.post('/refresh', checkIfAuthenticatedJWT, async function (req, res) {
     const refreshToken = req.body.refreshToken;
     if (refreshToken) {
         //check if token is already blacklist

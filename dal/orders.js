@@ -14,7 +14,7 @@ const createOrderItem = async (orderItemData) => {
 
 const getAllOrders = async () =>{
     const allOrders = await Order.fetchAll({
-        withRelated:['order_status', 'customer', 'order_item']
+        withRelated:['order_status', 'customer']
     })
     return allOrders;
 }
@@ -31,9 +31,19 @@ const getOrderById = async (orderId)=>{
         'id': orderId
     }).fetch({
         require: true,
-        withRelated:['order_status', 'customer', 'order_item']
+        withRelated:['order_status', 'customer']
     })
     return order;
+}
+
+const getOrdersByCustomerId = async (customerId)=>{
+    const orders = await Order.collection().where({
+        'customer_id': customerId
+    }).fetch({
+        require: false,
+        withRelated:['order_status', 'customer']
+    })
+    return orders
 }
 
 module.exports = {
@@ -41,5 +51,6 @@ module.exports = {
     createOrderItem,
     getAllOrders,
     getAllOrderStatus,
-    getOrderById
+    getOrderById,
+    getOrdersByCustomerId
 }

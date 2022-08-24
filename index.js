@@ -93,6 +93,7 @@ const api = {
   customers: require('./routes/api/customers'),
   checkout: require('./routes/api/checkout'),
   stripe: require('./routes/api/stripe'),
+  orders: require('./routes/api/orders'),
   test_checkout: require('./routes/api/test-checkout')
 }
 
@@ -108,6 +109,7 @@ async function main() {
     app.use('/api/customers', express.json(), api.customers);
     app.use('/api/checkout', checkIfAuthenticatedJWT, api.checkout);
     app.use('/api/stripe', checkIfAuthenticatedJWT, api.stripe);
+    app.use('/api/orders', express.json(), checkIfAuthenticatedJWT, api.orders)
     app.use('/api/test-checkout', api.test_checkout)
 }
 
