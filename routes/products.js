@@ -58,7 +58,8 @@ router.get('/', async function (req, res) {
             for (let product of products) {
                 const stock = await dataLayer.getStockOfAllVariants(product.id);
                 const sold = await dataLayer.getSoldOfAllVariants(product.id);
-                product = { ...product, stock, sold }
+                const revenue = parseInt(parseInt(sold) * product.cost)
+                product = { ...product, stock, sold, revenue }
                 newProducts.push(product)
             }
             // console.log(newProducts)
