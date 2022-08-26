@@ -25,18 +25,30 @@ router.get('/', async (req,res) => {
 
 router.get('/search', async(req,res)=>{
     let query = Product.collection();
-    console.log(req.query)
-    // if (req.query.product) {
-    //     if(process.env.DB_DRIVER == 'mysql'){
-    //         query.where('product', 'like', '%' + req.query.product + '%')
-    //     } else {
-    //         query.where('product', 'ilike', '%' + req.query.product + '%')
-    //     }
-    // };
-
-    if (req.query.id){
-        query.where('id', '=', req.query.id)
+    // console.log(req.query)
+    if (req.query.product) {
+        if(process.env.DB_DRIVER == 'mysql'){
+            query.where('product', 'like', '%' + req.query.product + '%')
+        } else {
+            query.where('product', 'ilike', '%' + req.query.product + '%')
+        }
     };
+
+    if (req.query.brand_id && req.query.brand_id != '1'){
+        query.where('brand_id', '=', req.query.brand_id)
+    };
+
+    if (req.query.category_id && req.query.category_id != '1'){
+        query.where('category_id', '=', req.query.category_id)
+    }
+
+    if (req.query.activity_id && req.query.activity_id != '1'){
+        query.where('activity_id', '=', req.query.activity_id)
+    }
+
+    if(req.query.blend_id && req.query.blend_id != '1'){
+        query.where('blend_id', '=', req.query.blend_id)
+    }
 
     let productsData = await query.fetch({
         withRelated: ['brand', 'gender', 'category']
