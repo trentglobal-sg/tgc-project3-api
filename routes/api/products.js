@@ -1,6 +1,7 @@
 const express = require ('express')
 const router = express.Router();
 const productDataLayer = require('../../dal/products')
+const { Product } = require ('../../models')
 
 //get all products
 router.get('/', async (req,res) => {
@@ -20,6 +21,30 @@ router.get('/', async (req,res) => {
     } catch (error) {
         res.send(error)
     }
+})
+
+router.get('/search', async(req,res)=>{
+    let query = Product.collection();
+    console.log(req.query)
+    // if (req.query.product) {
+    //     if(process.env.DB_DRIVER == 'mysql'){
+    //         query.where('product', 'like', '%' + req.query.product + '%')
+    //     } else {
+    //         query.where('product', 'ilike', '%' + req.query.product + '%')
+    //     }
+    // };
+
+    if (req.query.id){
+        query.where('id', '=', req.query.id)
+    };
+
+    let productsData = await query.fetch({
+        withRelated: ['brand', 'gender', 'category']
+    })
+
+    let products = productsData.toJSON();
+    res.send(products)
+    // console.log(products) 
 })
 
 //get variants by product id
@@ -43,5 +68,7 @@ router.get('/:product_id/:variant_id', async (req,res)=>{
         res.send(error)
     }
 })
+
+
 
 module.exports = router;
