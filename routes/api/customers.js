@@ -118,12 +118,16 @@ router.post('/login', async function (req, res) {
                 'accessToken': accessToken,
                 'refreshToken': refreshToken
             })
+        } else {
+            res.json({
+                'error': 'Invalid email or password'
+            })
         }
     } catch (error) {
         //error
         res.status(401);
         res.json({
-            'error': 'Invalid email or password'
+            'error': 'Internal Server Error'
         })
     }
 })
