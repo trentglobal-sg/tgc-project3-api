@@ -101,14 +101,15 @@ router.post('/register', async function (req, res) {
 
 
 router.post('/login', async function (req, res) {
-    const customer = await Customer.where({
-        'email': req.body.email,
-        'password': getHashedPassword(req.body.password)
-    }).fetch({
-        require: false
-    })
-
     try {
+        const customer = await Customer.where({
+            'email': req.body.email,
+            'password': getHashedPassword(req.body.password)
+        }).fetch({
+            require: false
+        })
+
+
         if (customer) {
             //create the jwt
             const accessToken = generateAccessToken(customer.get('username'), customer.get('id'), customer.get('email'), process.env.TOKEN_SECRET, '1h')
@@ -117,7 +118,7 @@ router.post('/login', async function (req, res) {
                 'accessToken': accessToken,
                 'refreshToken': refreshToken
             })
-        } 
+        }
     } catch (error) {
         //error
         res.status(401);
