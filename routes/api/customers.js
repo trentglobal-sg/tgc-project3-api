@@ -26,6 +26,8 @@ const generateAccessToken = function (username, id, email, tokenSecret, expiry) 
 }
 
 router.post('/register', async function(req,res) {
+    //check if customer exists
+
     let error = {};
     const username = req.body.username;
     if (username.length == 0 || username.length > 100) {
@@ -75,11 +77,23 @@ router.post('/register', async function(req,res) {
 
     // res.json(customerData)
     try {
+        //check if customer exists
+        let customerExists = await customerDataLayer.checkCustomerExists(req.body.email)
+        console.log("customerExists =>", customerExists)
+
+        if (customerExists){
+            // res.status(400)
+            res.json({customerExists: "Customer already exists"})
+            return
+        }
+
         const customer = await customerDataLayer.registerCustomer(customerData);
-        res.status(201);
+        // res.status(201);
         res.json({customer: customer})
+        // res.send(true)
     } catch (error) {
-        res.status(500)
+        // res.status(500)
+        // res.send(false)
         res.json({error: "Internal server error. Please contact administrator"})
         console.log(error)
     }

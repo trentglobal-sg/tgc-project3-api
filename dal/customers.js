@@ -7,6 +7,20 @@ const registerCustomer = async (customerData) => {
     return customer;
 }
 
+const checkCustomerExists = async (email) => {
+    const customer = await Customer.where({
+        'email': email
+    }).fetch({
+        require: false
+    })
+    if (customer){
+        return true
+    } else {
+        return false
+    }
+}
+
 module.exports = {
-    registerCustomer
+    registerCustomer,
+    checkCustomerExists
 }
