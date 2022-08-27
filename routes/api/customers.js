@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const {Customer, Blacklisted_token} = require('../../models');
+const { Customer, Blacklisted_token } = require('../../models');
 const { checkIfAuthenticatedJWT } = require('../../middlewares');
-const {validateEmail} = require('../../utilities')
+const { validateEmail } = require('../../utilities')
 const customerDataLayer = require('../../dal/customers')
 
 const getHashedPassword = (password) => {
@@ -25,7 +25,7 @@ const generateAccessToken = function (username, id, email, tokenSecret, expiry) 
     })
 }
 
-router.post('/register', async function(req,res) {
+router.post('/register', async function (req, res) {
     //check if customer exists
 
     let error = {};
@@ -44,7 +44,7 @@ router.post('/register', async function(req,res) {
         error.first_name = "Please enter last name of less than 100 characters"
     }
 
-    const email  = req.body.email;
+    const email = req.body.email;
     if (!validateEmail(email)) {
         error.email = "Please enter a valid email address"
     }
@@ -55,13 +55,13 @@ router.post('/register', async function(req,res) {
     }
 
     const contact_number = req.body.contact_number;
-    if(contact_number.length == 0 || contact_number.length > 12) {
+    if (contact_number.length == 0 || contact_number.length > 12) {
         error.contact_number = "Please enter contact number of less than 12 characters"
     }
 
-    if (Object.keys(error).length > 0){
+    if (Object.keys(error).length > 0) {
         res.status(400);
-        res.json({error: error});
+        res.json({ error: error });
         return
     }
 
@@ -81,20 +81,20 @@ router.post('/register', async function(req,res) {
         let customerExists = await customerDataLayer.checkCustomerExists(req.body.email)
         console.log("customerExists =>", customerExists)
 
-        if (customerExists){
+        if (customerExists) {
             // res.status(400)
-            res.json({customerExists: "Customer already exists"})
+            res.json({ customerExists: "Customer already exists" })
             return
         }
 
         const customer = await customerDataLayer.registerCustomer(customerData);
         // res.status(201);
-        res.json({customer: customer})
+        res.json({ customer: customer })
         // res.send(true)
     } catch (error) {
         // res.status(500)
         // res.send(false)
-        res.json({error: "Internal server error. Please contact administrator"})
+        res.json({ error: "Internal server error. Please contact administrator" })
         console.log(error)
     }
 })
@@ -108,15 +108,17 @@ router.post('/login', async function (req, res) {
         require: false
     })
 
-    if (customer) {
-        //create the jwt
-        const accessToken = generateAccessToken(customer.get('username'), customer.get('id'), customer.get('email'), process.env.TOKEN_SECRET, '1h')
-        const refreshToken = generateAccessToken(customer.get('username'), customer.get('id'), customer.get('email'), process.env.REFRESH_TOKEN_SECRET, '7d')
-        res.json({
-            'accessToken': accessToken,
-            'refreshToken': refreshToken
-        })
-    } else {
+    try {
+        if (customer) {
+            //create the jwt
+            const accessToken = generateAccessToken(customer.get('username'), customer.get('id'), customer.get('email'), process.env.TOKEN_SECRET, '1h')
+            const refreshToken = generateAccessToken(customer.get('username'), customer.get('id'), customer.get('email'), process.env.REFRESH_TOKEN_SECRET, '7d')
+            res.json({
+                'accessToken': accessToken,
+                'refreshToken': refreshToken
+            })
+        } 
+    } catch (error) {
         //error
         res.status(401);
         res.json({
@@ -144,7 +146,7 @@ router.post('/refresh', checkIfAuthenticatedJWT, async function (req, res) {
         })
 
         //if the blaclisted token is not null, means it exists
-        if(blacklisted_token){
+        if (blacklisted_token) {
             res.status(400);
             res.json({
                 'error': 'Refresh token has been blacklisted'
@@ -179,13 +181,13 @@ router.post('/refresh', checkIfAuthenticatedJWT, async function (req, res) {
     }
 })
 
-router.post('/logout', checkIfAuthenticatedJWT,async function(req,res){
+router.post('/logout', checkIfAuthenticatedJWT, async function (req, res) {
     const refreshToken = req.body.refreshToken;
 
-    if(refreshToken){
+    if (refreshToken) {
         //add refresh token to black list
-        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async function(err, tokenData){
-            if (!err){
+        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async function (err, tokenData) {
+            if (!err) {
                 //check if token is already blacklist
                 const blacklistedToken = await Blacklisted_token.where({
                     'blacklisted_token': refreshToken
@@ -194,7 +196,7 @@ router.post('/logout', checkIfAuthenticatedJWT,async function(req,res){
                 })
 
                 //if the blaclisted token is not null, means it exists
-                if(blacklistedToken){
+                if (blacklistedToken) {
                     res.status(400);
                     res.json({
                         'error': 'Refresh token has been blacklisted'
