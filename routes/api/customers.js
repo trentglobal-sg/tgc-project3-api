@@ -120,7 +120,7 @@ router.post('/login', async function (req, res) {
         //error
         res.status(401);
         res.json({
-            'message': 'Invalid email or password'
+            'error': 'Invalid email or password'
         })
     }
 })
