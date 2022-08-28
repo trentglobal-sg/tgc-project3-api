@@ -59,6 +59,20 @@ router.get('/search', async(req,res)=>{
     // console.log(products) 
 })
 
+router.get('/search-fields', async(req,res)=>{
+    try{
+        const brandsData = await productDataLayer.getAllBrands()
+        const categoriesData = await productDataLayer.getAllCategories()
+        const activitiesData = await productDataLayer.getAllActivities()
+        const blendsData = await productDataLayer.getAllBlends()
+        let searchFields = {brandsData, categoriesData, activitiesData, blendsData}
+
+        res.send(searchFields)
+    }catch(error){
+        res.send(error)
+    }
+})
+
 //get variants by product id
 router.get('/:product_id', async(req,res)=>{
     try{
@@ -80,6 +94,7 @@ router.get('/:product_id/:variant_id', async (req,res)=>{
         res.send(error)
     }
 })
+
 
 
 
