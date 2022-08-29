@@ -30,7 +30,7 @@ const checkIfAuthenticatedJWT = function (req,res,next){
             } else {
                 // if token is valid
                 req.customer = tokenData;
-                // console.log("checkifauthsuccess")
+                console.log("checkifauthsuccess")
                 next();
             }
         })

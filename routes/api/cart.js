@@ -10,13 +10,16 @@ router.get('/', async function (req,res){
 router.post('/:product_variant_id/add', async function(req,res){
     const customerId = req.customer.id
     const productVariantId = req.params.product_variant_id;
+    const quantity = req.body.quantity
+    console.log('quantity at api: ', quantity)
 
-    let addToCart = await cartServices.addToCart(customerId, productVariantId, 1);
-    if (!addToCart){
+    let addToCart = await cartServices.addToCart(customerId, productVariantId, quantity);
+    if (addToCart){
         res.json({
             'success': 'item added'
         })
     } else {
+        res.status(400)
         res.json({
             'error': "item not added"
         })
