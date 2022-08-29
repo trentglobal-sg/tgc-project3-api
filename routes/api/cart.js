@@ -11,10 +11,17 @@ router.post('/:product_variant_id/add', async function(req,res){
     const customerId = req.customer.id
     const productVariantId = req.params.product_variant_id;
 
-    await cartServices.addToCart(customerId, productVariantId, 1);
-    res.json({
-        'success': 'item added'
-    })
+    let addToCart = await cartServices.addToCart(customerId, productVariantId, 1);
+    if (!addToCart){
+        res.json({
+            'success': 'item added'
+        })
+    } else {
+        res.json({
+            'error': "item not added"
+        })
+    }
+    
 })
 
 router.post('/:product_variant_id/update', async function(req,res){
