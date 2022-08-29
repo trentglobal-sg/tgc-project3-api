@@ -34,6 +34,13 @@ router.get('/search', async(req,res)=>{
         }
     };
 
+    // if(req.query.brands){
+    //     let brands = req.query.brands
+    //     brands.map(brand => {
+    //         query.where('brand_id', '=', brand)
+    //     })
+    // }
+
     if (req.query.brand_id && req.query.brand_id != '1'){
         query.where('brand_id', '=', req.query.brand_id)
     };
