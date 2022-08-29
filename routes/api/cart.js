@@ -3,7 +3,9 @@ const router = express.Router();
 const cartServices = require('../../services/cart')
 
 router.get('/', async function (req,res){
-    const cartItems = await cartServices.getCart(req.customer.id);
+    console.log(req.customer.id)
+    const response = await cartServices.getCart(req.customer.id);
+    cartItems = response.toJSON()
     res.json(cartItems)
 })
 
