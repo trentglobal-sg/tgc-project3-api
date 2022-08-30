@@ -47,7 +47,9 @@ router.post('/:product_variant_id/update', async function(req,res){
 })
 
 router.delete('/:product_variant_id/delete', async function(req,res){
-    await cartServices.removeCartItem(req.customer.id, req.params.product_variant_id)
+    const customerId = req.customer.id
+    const productVariantId = req.params.product_variant_id
+    await cartServices.removeCartItem(customerId, productVariantId)
     res.json({
         'success': 'cart item deleted'
     })
