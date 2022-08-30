@@ -108,7 +108,11 @@ router.get('/', async function (req, res) {
 
     //step 4: user stripe to pay
     //credit card information (no, ccv) can NEVER reach our server
-    res.render('landing/testCheckout', {
+    // res.render('landing/testCheckout', {
+    //     'sessionId': stripeSession.id, // 4. Get the ID of the session
+    //     'publishableKey': process.env.STRIPE_PUBLISHABLE_KEY
+    // })
+    res.send({
         'sessionId': stripeSession.id, // 4. Get the ID of the session
         'publishableKey': process.env.STRIPE_PUBLISHABLE_KEY
     })
