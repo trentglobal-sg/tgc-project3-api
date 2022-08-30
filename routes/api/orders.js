@@ -3,7 +3,9 @@ const router = express.Router();
 const ordersDataLayer = require('../../dal/orders')
 
 router.get('/', async function(req,res){
-    const orders = await ordersDataLayer.getOrdersByCustomerId(req.customer.id)
+    let customerId = req.customer.id
+    console.log('customer:',customerId)
+    const orders = await ordersDataLayer.getOrdersByCustomerId(customerId)
     res.send(orders)
 })
 

@@ -108,7 +108,7 @@ async function main() {
     app.use('/api/cart', express.json(), checkIfAuthenticatedJWT, api.cart);
     app.use('/api/customers', express.json(), api.customers);
     app.use('/api/checkout', checkIfAuthenticatedJWT, api.checkout);
-    app.use('/api/stripe', checkIfAuthenticatedJWT, api.stripe);
+    app.use('/api/stripe', api.stripe);
     app.use('/api/orders', express.json(), checkIfAuthenticatedJWT, api.orders)
     app.use('/api/test-checkout', api.test_checkout)
 }
