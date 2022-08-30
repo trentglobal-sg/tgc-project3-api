@@ -14,7 +14,7 @@ async function addToCart( customerId, productVariantId, quantity) {
                 return false;
             } 
         } else {
-            //check if stock is more than cartitem quantity + quantity
+            // check if stock is more than cartitem quantity + quantity
             let cartQuantity = cart_item.get('quantity')
             let newQuantity = quantity + cartQuantity
             if (stock > newQuantity){
@@ -32,13 +32,29 @@ async function getCart(customerId) {
     return cartDataLayer.getCart(customerId);
 }
 
-async function updateQuantity(customerId, productVariantId, newQuantity) {
+async function updateQuantity(customerId, productVariantId, quantity) {
     //TODO check if the quantity matches the business rule
-    let stock = await productsDataLayer.getStockOfProductVariant(productVariantId)
-    if (stock > 10 && stock > newQuantity) {
-        return await cartDataLayer.updateQuantity(customerId, productVariantId, newQuantity)
+    const stock = await productsDataLayer.getStockOfProductVariant(productVariantId)
+    const cart_item = await cartDataLayer.getCartItemByUserAndProduct(customerId, productVariantId)
+    if (!cart_item) {
+        //check if stock is more than quantity
+        if (stock > quantity){
+            await cartDataLayer.createCartItem(customerId, productVariantId, quantity);
+            return true;
+        } else {
+            return false;
+        } 
     } else {
-        return false;
+        //check if stock is more than cartitem quantity + quantity
+        // let cartQuantity = cart_item.get('quantity')
+        // let newQuantity = quantity + cartQuantity test
+        if (stock > quantity){
+
+            await cartDataLayer.updateQuantity(customerId, productVariantId, quantity);
+            return true;
+        } else {
+            return false
+        }
     }
 }
 

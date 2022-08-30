@@ -4,7 +4,7 @@ const getCart = async (customerId) => {
     return await Cart_item.collection()
         .where({
             'customer_id' : customerId
-        }).fetch({
+        }).orderBy('id').fetch({
             require: false,
             withRelated: ['product_variant', 'product_variant.variant', 'product_variant.variant.product', 'product_variant.size']
         })

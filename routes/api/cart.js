@@ -32,15 +32,16 @@ router.post('/:product_variant_id/add', async function(req,res){
 router.post('/:product_variant_id/update', async function(req,res){
     const customerId = req.customer.id
     const productVariantId = req.params.product_variant_id;
+    const quantity = req.body.quantity
     
-    if (req.body.newQuantity > 0){
-        await cartServices.updateQuantity(customerId, productVariantId, req.body.newQuantity);
+    let updateCartItem = await cartServices.updateQuantity(customerId, productVariantId, quantity);
+    if (updateCartItem){
         res.json({
             'success': 'quantity updated'
         })
     } else {
         res.json({
-            'error': 'quantity must be greater than 0'
+            'error': 'item not updated'
         })
     }
 })
