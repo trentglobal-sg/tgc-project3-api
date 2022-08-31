@@ -148,7 +148,7 @@ async function getVariantById(variantId){
 async function getAllProductVariantsByVariant(variantId){
     const productVariants = await Product_variant.collection().where({
         'variant_id': variantId
-    }).fetch({
+    }).orderBy('id').fetch({
         require: false,
         withRelated: ['size']
     });

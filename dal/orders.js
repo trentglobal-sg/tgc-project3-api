@@ -41,7 +41,7 @@ const getOrderById = async (orderId)=>{
 const getOrdersByCustomerId = async (customerId)=>{
     const orders = await Order.collection().where({
         'customer_id': customerId
-    }).fetch({
+    }).orderBy('id', 'DESC').fetch({
         require: false,
         withRelated:['order_status', 'customer']
     })
