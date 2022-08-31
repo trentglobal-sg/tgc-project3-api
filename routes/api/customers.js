@@ -186,7 +186,7 @@ router.post('/refresh', checkIfAuthenticatedJWT, async function (req, res) {
     }
 })
 
-router.post('/logout', checkIfAuthenticatedJWT, async function (req, res) {
+router.post('/logout', async function (req, res) {
     const refreshToken = req.body.refreshToken;
 
     if (refreshToken) {
