@@ -127,8 +127,9 @@ async function getProductVariants(productId){
     return newVariants;
 }
 
+//TODO test get all sizes
 async function getAllSizes(){
-    const sizes = await Size.fetchAll().map(size => {
+    const sizes = await Size.orderBy('id').fetchAll().map(size => {
         return [size.get('id'), size.get('size')]
     });
     return sizes

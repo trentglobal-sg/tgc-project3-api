@@ -12,8 +12,10 @@ const createOrderItem = async (orderItemData) => {
     return order_item;
 }
 
+
+//TODO test orders sorting
 const getAllOrders = async () =>{
-    const allOrders = await Order.fetchAll({
+    const allOrders = await Order.orderBy('id', 'desc').fetchAll({
         withRelated:['order_status', 'customer']
     })
     return allOrders;
