@@ -11,13 +11,13 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css" />
 
-    <title>project 3</title>
+    <title>Merinology Admin Page</title>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Landing</a>
+            <h4 class="me-2">Merinology</h4>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -25,20 +25,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {{!-- <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/products">Products</a>
-                    </li> --}}
+                   
                     {{#if user}}
                     {{> productsNavLink}}
-                    {{!-- <li class="nav-item">
-                        <a class="nav-link" href="/orders">Orders</a>
-                    </li> --}}
-                    
+                
                     {{> ordersNavLink}}
                     {{/if}}
-                    {{!-- <li class="nav-item">
-                        <a class="nav-link" href="/users/register">Register User</a>
-                    </li> --}}
+                   
                     {{#eq user.role_id 1}}
                     {{> registerNavLink}}
                     {{/eq}}
@@ -46,9 +39,7 @@
             </div>
             <div>
                 {{#if user}}
-                {{!-- <a href="/users/profile" class="btn btn-sm btn-primary">Profile</a> --}}
                 Hi, {{user.username}}
-                {{!-- <a href="/cart" class="btn btn-sm btn-primary">Cart ({{cartCount}})</a> --}}
                 <a href="/users/logout" class="ml-3 btn btn-primary btn-sm">Logout</a>
                 {{else}}
                 Hi, Guest
