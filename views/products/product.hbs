@@ -4,7 +4,7 @@
 <div>
     <img src="{{this.product.product_image_url}}" style="width:300px" />
 </div>
-<div>
+<div class="mt-2">
     <h4>Description: </h4>
     <p>{{product.description}}</p>
 </div>
@@ -41,7 +41,7 @@
 <div>
     <h4>Color Variants:</h4>
 </div>
-<a href="/products/{{product.id}}/create-variant" class="btn btn-primary btn-sm">Add New Color Variant</a>
+<a href="/products/{{product.id}}/create-variant" class="btn my-btn btn-sm">Add New Color Variant</a>
 <table class="table">
     <thead>
         <tr>
@@ -63,8 +63,8 @@
             <td><img src="{{this.variant_thumbnail_url}}" /></td>
             <td>{{this.stock}}</td>
             <td>{{this.sold}}</td>
-            <td><a href="/products/{{../product.id}}/update-variant/{{this.id}}" class="btn btn-primary btn-sm me-2">Update</a>
-            <a href="/products/{{../product.id}}/variants/{{this.id}}" class="btn btn-primary btn-sm me-2">See Product Variants</a>
+            <td><a href="/products/{{../product.id}}/update-variant/{{this.id}}" class="btn my-btn btn-sm me-2">Update</a>
+            <a href="/products/{{../product.id}}/variants/{{this.id}}" class="btn my-btn btn-sm me-2">See Product Variants</a>
             <a href="#" class="btn btn-sm btn-danger btn-delete" data-name="{{../product.product}}, {{this.color_name}}" data-variant-id="{{this.id}}" data-product-id="{{../product.id}}">Delete</a></td>
         </tr>
         {{/each}}

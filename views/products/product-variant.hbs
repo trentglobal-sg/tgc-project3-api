@@ -6,39 +6,6 @@
 <div>
     <img src="{{variant.variant_image_url}}" style="width:300px" />
 </div>
-{{!-- <div>
-    <h3>Description: </h4>
-        <p>{{product.description}}</p>
-</div>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Created</th>
-            <th>Brand</th>
-            <th>Category</th>
-            <th>Gender</th>
-            <th>Activity</th>
-            <th>Blend</th>
-            <th>Micron</th>
-            <th>Fit</th>
-            <th>Cost</th>
-        </tr>
-        <tr>
-            <td>{{product.id}}</td>
-            <td>{{moment product.created_date format="YYYY-MM-DD"}}</td>
-            <td>{{product.brand.brand}}</td>
-            <td>{{product.category.category}}</td>
-            <td>{{product.gender.gender}}</td>
-            <td>{{product.activity.activity}}</td>
-            <td>{{product.blend.blend}}</td>
-            <td>{{product.micron.micron}}</td>
-            <td>{{product.fit.fit}}</td>
-            <td>${{divide product.cost 100}}</td>
-        </tr>
-    </thead>
-</table> --}}
 
 <div>
     <h3>Color Variant:</h4>
@@ -65,7 +32,7 @@
 <div>
     <h3>Product Variants</h3>
 </div>
-<a href="/products/{{productId}}/variants/{{variantId}}/add-product-variant/" class="btn btn-sm btn-primary">Add New
+<a href="/products/{{productId}}/variants/{{variantId}}/add-product-variant/" class="btn btn-sm my-btn">Add New
     Product Variant</a>
 <table class="table">
     <thead>
@@ -85,16 +52,16 @@
             <td>{{this.stock}}</td>
             <td>{{this.sold}}</td>
             <td><a href="/products/{{../productId}}/variants/{{../variantId}}/update-product-variant/{{this.id}}"
-                    class="btn btn-sm btn-primary">Update</a>
+                    class="btn btn-sm my-btn">Update</a>
                 <a href="#" class="btn btn-sm btn-danger btn-delete" data-name="{{../product.product}}, {{../variant.color_name}}, {{this.size.size}}" data-product-variant-id="{{this.id}}" data-variant-id="{{../variantId}}" data-product-id="{{../productId}}" >Delete</a>
-                <a href="#" class="btn btn-primary btn-sm"> Test Add to Cart</a>
+                <a href="#" class="btn my-btn btn-sm"> Test Add to Cart</a>
             </td>
         </tr>
         {{/each}}
     </tbody>
 </table>
 
-<a href="/products/{{productId}}" class="btn btn-sm btn-primary mt-6">Back to Product</a>
+<a href="/products/{{productId}}" class="btn btn-sm my-btn mt-6">Back to Product</a>
 
 {{/block}}
 
