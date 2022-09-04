@@ -52,7 +52,7 @@
     <main>
         {{#if success_messages }}
         {{#each success_messages}}
-        <div class="alert alert-success">
+        <div class="alert alert-success container">
             {{this}}
         </div>
         {{/each}}
@@ -60,7 +60,7 @@
 
         {{#if error_messages}}
         {{#each error_messages}}
-        <div class="alert alert-danger">
+        <div class="alert alert-danger container">
             {{this}}
         </div>
         {{/each}}
