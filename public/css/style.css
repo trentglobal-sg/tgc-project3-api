@@ -8,3 +8,17 @@
     color: whitesmoke !important;
     border-color: #444f5a !important;
   }
+
+#landing-container{
+    display: flex;
+    justify-content: center;
+    background-image: url(../images/merino-wool-guide-pack-hacker.jpeg);
+    background-position: center;
+    background-size: cover;
+    height: 94.5vh;
+}
+
+#landing-page{
+    width: 40%;
+    margin-top: 15%;
+}

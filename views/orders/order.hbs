@@ -1,83 +1,84 @@
 {{#extends "base"}}
 {{#block "content"}}
-<h1>Order ID: {{order.id}}</h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Customer</th>
-            <th>Email</th>
-            <th>Contact</th>
-            <th>Order Date</th>
-            <th>Updated Date</th>
-            <th>Shipping</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{{order.customer.first_name}} {{order.customer.last_name}}</td>
-            <td>{{order.customer.email}}</td>
-            <td>{{order.customer.contact_number}}</td>
-            <td>{{moment order.order_date format="YYYY-MM-DD"}}</td>
-            <td>{{moment order.updated_date format="YYYY-MM-DD"}}</td>
-            <td>{{order.shipping_type}}</td>
-        </tr>
-    </tbody>
-</table>
-<form method="POST">
-    {{{form}}}
-    <input type="submit" class="btn my-btn btn-sm mt-2" />
-    {{> csrf}}
-</form>
+<div class="container">
+    <h1>Order ID: {{order.id}}</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Customer</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Order Date</th>
+                <th>Updated Date</th>
+                <th>Shipping</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{order.customer.first_name}} {{order.customer.last_name}}</td>
+                <td>{{order.customer.email}}</td>
+                <td>{{order.customer.contact_number}}</td>
+                <td>{{moment order.order_date format="YYYY-MM-DD"}}</td>
+                <td>{{moment order.updated_date format="YYYY-MM-DD"}}</td>
+                <td>{{order.shipping_type}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <form method="POST">
+        {{{form}}}
+        <input type="submit" class="btn my-btn btn-sm mt-2" />
+        {{> csrf}}
+    </form>
 
-<div class="row mt-3">
-    <div class="col-12 col-lg-6">
-        <h3>Payment</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    {{!-- <th>Payment ID</th> --}}
-                    <th>Payment Mode</th>
-                    <th>Amount</th>
-                    <th>Receipt</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    {{!-- <td>{{order.payment_intent}}</td> --}}
-                    <td>{{order.payment_mode}}</td>
-                    <td>$ {{divide order.total_amount 100}}</td>
-                    <td><a href="{{order.receipt_url}}" class="btn my-btn btn-sm">View Receipt</a></td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="row mt-3">
+        <div class="col-12 col-lg-6">
+            <h3>Payment</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        {{!-- <th>Payment ID</th> --}}
+                        <th>Payment Mode</th>
+                        <th>Amount</th>
+                        <th>Receipt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {{!-- <td>{{order.payment_intent}}</td> --}}
+                        <td>{{order.payment_mode}}</td>
+                        <td>$ {{divide order.total_amount 100}}</td>
+                        <td><a href="{{order.receipt_url}}" class="btn my-btn btn-sm">View Receipt</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <h3>Shipping Details</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Shipping Type</th>
+                        <th>Shipping Cost</th>
+                        <th>Shipping Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{order.shipping_type}}</td>
+                        <td>$ {{divide order.shipping_amount 100}}</td>
+                        <td>{{order.shipping_address_line1}} <br>
+                            {{order.shipping_address_line2}} <br>
+                            {{order.shipping_postal_code}} <br>
+                            {{order.shipping_country}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div class="col-12 col-lg-6">
-        <h3>Shipping Details</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Shipping Type</th>
-                    <th>Shipping Cost</th>
-                    <th>Shipping Address</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{order.shipping_type}}</td>
-                    <td>$ {{divide order.shipping_amount 100}}</td>
-                    <td>{{order.shipping_address_line1}} <br>
-                        {{order.shipping_address_line2}} <br>
-                        {{order.shipping_postal_code}} <br>
-                        {{order.shipping_country}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <a href="/orders" class="btn my-btn btn-sm">Back to Orders</a>
 </div>
-
-<a href="/orders" class="btn my-btn btn-sm">Back to Orders</a>
-
 {{/block}}
 {{/extends}}

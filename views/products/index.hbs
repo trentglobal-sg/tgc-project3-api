@@ -1,54 +1,57 @@
 {{#extends "base"}}
 {{#block "content"}}
-<h1>Products</h1>
-<a href="/products/create" class="btn my-btn btn-sm mb-3">Add New Product</a>
-<div class="row">
-<div class="col-12 col-lg-2">
-    <h2>Search</h2>
-    <form method="GET">
-        {{{form}}}
-        <input type="submit" class="btn btn-sm my-btn mt-2" />
-        {{> csrf}}
-        <a href="/products" class="btn btn-sm btn-danger mt-2">Clear Search</a>
-    </form>
-</div>
+<div class="container">
+    <h1>Products</h1>
+    <a href="/products/create" class="btn my-btn btn-sm mb-3">Add New Product</a>
+    <div class="row">
+        <div class="col-12 col-lg-2">
+            <h2>Search</h2>
+            <form method="GET">
+                {{{form}}}
+                <input type="submit" class="btn btn-sm my-btn mt-2" />
+                {{> csrf}}
+                <a href="/products" class="btn btn-sm btn-danger mt-2">Clear Search</a>
+            </form>
+        </div>
 
-<div class="col-12 col-lg-9">
-    <h2>Results</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Product</th>
-                <th>Brand</th>
-                <th>Category</th>
-                <th>Cost</th>
-                <th>Stock</th>
-                <th>Revenue</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each products}}
-            <tr>
-                <td>{{this.id}}</td>
-                <td>{{this.product}} <br><img src="{{this.product_thumbnail_url}}"></td>
-                <td>{{this.brand.brand}}</td>
-                <td>{{this.category.category}} ({{this.gender.gender}})</td>
-                <td>${{divide this.cost 100}}</td>
-                <td>Left: {{this.stock}} <br> Sold:{{this.sold}}</td>
-                <td>${{divide this.revenue 100}}</td>
-                <td><a href="/products/{{this.id}}" class="btn my-btn btn-sm me-2">View</a><a
-                        href="/products/{{this.id}}/update" class="btn my-btn btn-sm">Update</a>
-                        <a href="#" class="btn btn-sm btn-danger btn-delete mt-2" data-name="{{this.product}}" data-product-id="{{this.id}}">Delete</a></td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+        <div class="col-12 col-lg-9">
+            <h2>Results</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product</th>
+                        <th>Brand</th>
+                        <th>Category</th>
+                        <th>Cost</th>
+                        <th>Stock</th>
+                        <th>Revenue</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each products}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{this.product}} <br><img src="{{this.product_thumbnail_url}}"></td>
+                        <td>{{this.brand.brand}}</td>
+                        <td>{{this.category.category}} ({{this.gender.gender}})</td>
+                        <td>${{divide this.cost 100}}</td>
+                        <td>Left: {{this.stock}} <br> Sold:{{this.sold}}</td>
+                        <td>${{divide this.revenue 100}}</td>
+                        <td><a href="/products/{{this.id}}" class="btn my-btn btn-sm me-2">View</a><a
+                                href="/products/{{this.id}}/update" class="btn my-btn btn-sm">Update</a>
+                            <a href="#" class="btn btn-sm btn-danger btn-delete mt-2" data-name="{{this.product}}"
+                                data-product-id="{{this.id}}">Delete</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-</div>
-
 {{/block}}
 
 {{#block 'js'}}

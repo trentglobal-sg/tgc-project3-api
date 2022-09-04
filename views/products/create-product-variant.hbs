@@ -1,18 +1,20 @@
 {{#extends "base"}}
 {{#block "content"}}
+<div class="container">
+    <h1>Add New Product Variant</h1>
+    <tr>
+        <td>{{variant.id}}</td>
+        <td>{{variant.color_name}}</td>
+        <td>{{variant.color_code}}</td>
+        <td><img src="{{variant.variant_thumbnail_url}}" /></td>
+    </tr>
+    <form method="POST">
+        {{{form}}}
+        <input type="submit" class="btn my-btn btn-sm mt-2" />
+        {{> csrf}}
+    </form>
+</div>
 
-<h1>Add New Product Variant</h1>
-<tr>
-    <td>{{variant.id}}</td>
-    <td>{{variant.color_name}}</td>
-    <td>{{variant.color_code}}</td>
-    <td><img src="{{variant.variant_thumbnail_url}}" /></td>
-</tr>
-<form method="POST">
-    {{{form}}}
-    <input type="submit" class="btn my-btn btn-sm mt-2" />
-    {{> csrf}}
-</form>
 {{/block}}
 
 {{#block 'js'}}

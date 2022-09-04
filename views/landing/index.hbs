@@ -1,9 +1,14 @@
 {{#extends "base"}}
 {{#block "content"}}
-<h1>
-    Merinology Admin Page
-</h1>
-<img class="w-100" src="https://www.carryology.com/wp-content/uploads/2018/03/merino-wool-guide-pack-hacker.jpg"></img>
-{{!-- <a href="/api/test-checkout">test checkout</a> --}}
+<div id="landing-container">
+    <div id="landing-page">
+        <h1>Staff Login</h1>
+        <form method="POST">
+            {{{form}}}
+            <input class="btn btn-sm my-btn mt-3" type="submit" />
+            {{> csrf}}
+        </form>
+    </div>
+</div>
 {{/block}}
 {{/extends}}

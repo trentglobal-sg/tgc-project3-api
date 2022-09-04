@@ -16,7 +16,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
+        <div class="container">
             <h4 class="me-2">Merinology</h4>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -43,13 +43,13 @@
                 <a href="/users/logout" class="ml-3 btn my-btn btn-sm">Logout</a>
                 {{else}}
                 Hi, Guest
-                <a href="/users/login" class="ml-3 btn my-btn btn-sm">Login</a>
+                {{!-- <a href="/users/login" class="ml-3 btn my-btn btn-sm">Login</a> --}}
                 {{/if}}
             </div>
         </div>
     </nav>
 
-    <main class="container">
+    <main>
         {{#if success_messages }}
         {{#each success_messages}}
         <div class="alert alert-success">

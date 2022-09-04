@@ -1,17 +1,18 @@
 {{#extends "base"}}
 {{#block "content"}}
-
-<h1>Add New Product</h1>
-<form method="POST">
-    {{{form}}}
-    {{!-- cloudinary --}}
-    <div class="mt-2">
-        <a href="#" class="btn my-btn btn-sm" id="upload_widget">Upload Image</a>
-        <img src="" style="display:none" id="uploaded_image" />
-    </div>
-    <input type="submit" class="btn my-btn btn-sm mt-2"/>
-    {{> csrf}}
-</form>
+<div class="container">
+    <h1>Add New Product</h1>
+    <form method="POST">
+        {{{form}}}
+        {{!-- cloudinary --}}
+        <div class="mt-2">
+            <a href="#" class="btn my-btn btn-sm" id="upload_widget">Upload Image</a>
+            <img src="" style="display:none" id="uploaded_image" />
+        </div>
+        <input type="submit" class="btn my-btn btn-sm mt-2" />
+        {{> csrf}}
+    </form>
+</div>
 {{/block}}
 
 {{#block 'js'}}

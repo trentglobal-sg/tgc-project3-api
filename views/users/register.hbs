@@ -1,10 +1,13 @@
 {{#extends "base"}}
 {{#block "content"}}
-<h1>Register User</h1>
-<form method="POST">
-    {{{form}}}
-    <input class="btn btn-sm my-btn mt-3" type="submit" />
-    {{> csrf}}
-</form>
+<div class="container">
+    <h1>Register User</h1>
+    <form method="POST">
+        {{{form}}}
+        <input class="btn btn-sm my-btn mt-3" type="submit" />
+        {{> csrf}}
+    </form>
+</div>
+
 {{/block}}
 {{/extends}}
