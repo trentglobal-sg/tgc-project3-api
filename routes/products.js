@@ -7,7 +7,7 @@ const { Product, Variant, Product_variant, Brand } = require("../models");
 
 router.get('/', async function (req, res) {
     let allProducts = await dataLayer.getAllProducts();
-    
+
     const allBrands = await dataLayer.getAllBrands();
     allBrands.unshift([0, '-----']);
     const allGenders = await dataLayer.getAllGenders();
@@ -20,29 +20,29 @@ router.get('/', async function (req, res) {
 
     searchForm.handle(req, {
         'success': async (form) => {
-            if (form.data.id){
+            if (form.data.id) {
                 query.where('id', '=', form.data.id)
             };
             if (form.data.product) {
-                if(process.env.DB_DRIVER == 'mysql'){
+                if (process.env.DB_DRIVER == 'mysql') {
                     query.where('product', 'like', '%' + form.data.product + '%')
                 } else {
                     query.where('product', 'ilike', '%' + form.data.product + '%')
                 }
             };
-            if (form.data.brand_id && form.data.brand_id != '0'){
+            if (form.data.brand_id && form.data.brand_id != '0') {
                 query.where('brand_id', '=', form.data.brand_id)
             };
-            if (form.data.min_cost){
-                query.where('cost', '>=', form.data.min_cost*100)
+            if (form.data.min_cost) {
+                query.where('cost', '>=', form.data.min_cost * 100)
             };
-            if (form.data.max_cost){
-                query.where('cost', '<=', form.data.max_cost*100)
+            if (form.data.max_cost) {
+                query.where('cost', '<=', form.data.max_cost * 100)
             }
-            if (form.data.gender_id && form.data.gender_id != '0'){
+            if (form.data.gender_id && form.data.gender_id != '0') {
                 query.where('gender_id', '=', form.data.gender_id)
             }
-            if (form.data.category_id && form.data.category_id != '0'){
+            if (form.data.category_id && form.data.category_id != '0') {
                 query.where('category_id', '=', form.data.category_id)
             }
 
@@ -224,7 +224,7 @@ router.post('/:product_id/update', async function (req, res) {
     })
 })
 
-router.post('/:product_id/delete', async function(req,res){
+router.post('/:product_id/delete', async function (req, res) {
     //fetch product we want to delete
     const product = await dataLayer.getProductById(req.params.product_id)
 
@@ -246,42 +246,56 @@ router.get('/:product_id/create-variant', async function (req, res) {
 })
 
 router.post('/:product_id/create-variant', async function (req, res) {
-    const variantForm = createVariantForm();
-    variantForm.handle(req, {
-        'success': async (form) => {
-            const product_id = req.params.product_id
-            const variantData = { ...form.data, product_id }
-            const variant = new Variant(variantData)
-            const saved = await variant.save()
 
-            const newVariant = saved.toJSON();
+    try {
+        const variantForm = createVariantForm();
+        variantForm.handle(req, {
+            'success': async (form) => {
+                const product_id = req.params.product_id
+                const variantData = { ...form.data, product_id }
+                const variant = new Variant(variantData)
+                const saved = await variant.save()
 
-            // add flash messages
-            req.flash('success_messages', `New variant ${newVariant.color_name} has been created`)
-            res.redirect('/products/' + req.params.product_id + '/variants/' + newVariant.id + '/add-product-variant') 
-        },
-        'error': async (form) => {
-            res.render('products/create-variant', {
-                form: form.toHTML(bootstrapField),
-                cloudinaryName: process.env.CLOUDINARY_NAME,
-                cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
-                cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
-            })
-        }
-    })
+                const newVariant = saved.toJSON();
+
+                // add flash messages
+                req.flash('success_messages', `New variant ${newVariant.color_name} has been created`)
+                res.redirect('/products/' + req.params.product_id + '/variants/' + newVariant.id + '/add-product-variant')
+            },
+            'error': async (form) => {
+                res.render('products/create-variant', {
+                    form: form.toHTML(bootstrapField),
+                    cloudinaryName: process.env.CLOUDINARY_NAME,
+                    cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+                    cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
+                })
+            }
+        })
+
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
+
 })
 
 router.get('/:product_id/variants/:variant_id', async function (req, res) {
-    const productVariants = await dataLayer.getAllProductVariantsByVariant(req.params.variant_id);
-    const product = await dataLayer.getProductById(req.params.product_id);
-    const variant = await dataLayer.getVariantById(req.params.variant_id);
-    res.render('products/product-variant', {
-        productVariants: productVariants.toJSON(),
-        variantId: req.params.variant_id,
-        productId: req.params.product_id,
-        product: product.toJSON(),
-        variant: variant.toJSON()
-    })
+    try {
+        const productVariants = await dataLayer.getAllProductVariantsByVariant(req.params.variant_id);
+        const product = await dataLayer.getProductById(req.params.product_id);
+        const variant = await dataLayer.getVariantById(req.params.variant_id);
+        res.render('products/product-variant', {
+            productVariants: productVariants.toJSON(),
+            variantId: req.params.variant_id,
+            productId: req.params.product_id,
+            product: product.toJSON(),
+            variant: variant.toJSON()
+        })
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
+
 })
 
 router.get('/:product_id/variants/:variant_id/add-product-variant/', async function (req, res) {
@@ -371,7 +385,7 @@ router.post('/:product_id/variants/:variant_id/update-product-variant/:product_v
     })
 })
 
-router.post('/:product_id/variants/:variant_id/delete-product-variant/:product_variant_id', async function(req,res){
+router.post('/:product_id/variants/:variant_id/delete-product-variant/:product_variant_id', async function (req, res) {
     //fetch the product variant that we want to delete
     const productVariant = await dataLayer.getProductVariantById(req.params.product_variant_id)
 
@@ -426,7 +440,7 @@ router.post('/:product_id/update-variant/:variant_id', async function (req, res)
     })
 })
 
-router.post('/:product_id/delete-variant/:variant_id', async function (req,res){
+router.post('/:product_id/delete-variant/:variant_id', async function (req, res) {
     //fetch the variant that we want to delete
     const variant = await dataLayer.getVariantById(req.params.variant_id)
 

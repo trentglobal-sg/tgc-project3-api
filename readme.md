@@ -1,16 +1,4 @@
-To start mysql, in the terminal, type in `mysql -u root`
+# Project 3
 
-# Create a new database user
-In the MySQL CLI:
-```
-CREATE USER 'ahkow'@'localhost' IDENTIFIED BY 'rotiprata123';
-```
-
-```
-GRANT ALL PRIVILEGES on sakila.* TO 'ahkow'@'localhost' WITH GRANT OPTION;
-```
-**Note:** Replace *sakila* with the name of the database you want the user to have access to
- 
- ```
-FLUSH PRIVILEGES;
-```
+## Using codespace
+To login into the database, use `mysql -u root -pmariadb -h 127.0.0.1`
